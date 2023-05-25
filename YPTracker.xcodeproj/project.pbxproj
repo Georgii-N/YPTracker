@@ -11,10 +11,14 @@
 		406C5A1A2A1F1EAA0036A47D /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406C5A192A1F1EAA0036A47D /* UIColor + ext.swift */; };
 		40CAE28F2A1629460024000B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAE28E2A1629460024000B /* AppDelegate.swift */; };
 		40CAE2912A1629460024000B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAE2902A1629460024000B /* SceneDelegate.swift */; };
-		40CAE2932A1629460024000B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAE2922A1629460024000B /* ViewController.swift */; };
+		40CAE2932A1629460024000B /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAE2922A1629460024000B /* TrackersViewController.swift */; };
 		40CAE2962A1629460024000B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CAE2942A1629460024000B /* Main.storyboard */; };
 		40CAE2982A1629490024000B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40CAE2972A1629490024000B /* Assets.xcassets */; };
 		40CAE29B2A1629490024000B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CAE2992A1629490024000B /* LaunchScreen.storyboard */; };
+		40E1F1D92A1F6221009B439D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1F1D82A1F6221009B439D /* TabBarController.swift */; };
+		40E1F1DD2A1F65C0009B439D /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1F1DC2A1F65C0009B439D /* StatisticViewController.swift */; };
+		40E1F1DF2A1F6BDF009B439D /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1F1DE2A1F6BDF009B439D /* UIView + ext.swift */; };
+		40E1F1E22A1F767F009B439D /* TrackersNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1F1E12A1F767F009B439D /* TrackersNavBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,11 +27,15 @@
 		40CAE28B2A1629460024000B /* YPTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YPTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40CAE28E2A1629460024000B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40CAE2902A1629460024000B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		40CAE2922A1629460024000B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		40CAE2922A1629460024000B /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		40CAE2952A1629460024000B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		40CAE2972A1629490024000B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40CAE29A2A1629490024000B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		40CAE29C2A1629490024000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40E1F1D82A1F6221009B439D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		40E1F1DC2A1F65C0009B439D /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
+		40E1F1DE2A1F6BDF009B439D /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
+		40E1F1E12A1F767F009B439D /* TrackersNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersNavBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				406C5A192A1F1EAA0036A47D /* UIColor + ext.swift */,
+				40E1F1DE2A1F6BDF009B439D /* UIView + ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -79,7 +88,9 @@
 			children = (
 				40CAE28E2A1629460024000B /* AppDelegate.swift */,
 				40CAE2902A1629460024000B /* SceneDelegate.swift */,
-				40CAE2922A1629460024000B /* ViewController.swift */,
+				40E1F1DC2A1F65C0009B439D /* StatisticViewController.swift */,
+				40E1F1E02A1F7653009B439D /* TrackersViewController */,
+				40E1F1D82A1F6221009B439D /* TabBarController.swift */,
 				40CAE2942A1629460024000B /* Main.storyboard */,
 				40CAE2972A1629490024000B /* Assets.xcassets */,
 				40CAE2992A1629490024000B /* LaunchScreen.storyboard */,
@@ -87,6 +98,15 @@
 				406C5A1B2A1F1ECC0036A47D /* Helpers */,
 			);
 			path = YPTracker;
+			sourceTree = "<group>";
+		};
+		40E1F1E02A1F7653009B439D /* TrackersViewController */ = {
+			isa = PBXGroup;
+			children = (
+				40CAE2922A1629460024000B /* TrackersViewController.swift */,
+				40E1F1E12A1F767F009B439D /* TrackersNavBar.swift */,
+			);
+			path = TrackersViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +181,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				406C5A182A1F1E960036A47D /* R.swift in Sources */,
-				40CAE2932A1629460024000B /* ViewController.swift in Sources */,
+				40CAE2932A1629460024000B /* TrackersViewController.swift in Sources */,
+				40E1F1DF2A1F6BDF009B439D /* UIView + ext.swift in Sources */,
+				40E1F1DD2A1F65C0009B439D /* StatisticViewController.swift in Sources */,
+				40E1F1E22A1F767F009B439D /* TrackersNavBar.swift in Sources */,
 				40CAE28F2A1629460024000B /* AppDelegate.swift in Sources */,
+				40E1F1D92A1F6221009B439D /* TabBarController.swift in Sources */,
 				406C5A1A2A1F1EAA0036A47D /* UIColor + ext.swift in Sources */,
 				40CAE2912A1629460024000B /* SceneDelegate.swift in Sources */,
 			);
