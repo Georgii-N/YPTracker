@@ -15,7 +15,11 @@ class TrackersViewController: UIViewController {
         constraintViews()
         configureAppearance()
         showStub()
+        
         navBar.searchTextField.delegate = self
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+        
     }
 }
 
@@ -35,6 +39,12 @@ extension TrackersViewController {
     private func configureAppearance() {
         navigationController?.navigationBar.isHidden = true
         
+        navBar.plusButton.addTarget(self, action: #selector(didTappedPlusButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTappedPlusButton() {
+        let chooseHabitOrIrregularEventViewController = ChooseHabitOrIrregularEventViewController()
+        present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
     }
     
     private func showStub() {
@@ -70,3 +80,4 @@ extension TrackersViewController : UITextFieldDelegate {
         }
     }
 }
+

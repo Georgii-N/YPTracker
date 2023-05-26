@@ -1,7 +1,7 @@
 import UIKit
 
 final class TrackersNavBar: UIView {
-    private lazy var plusButton = UIButton()
+    lazy var plusButton = UIButton()
     private lazy var textLabel = UILabel()
     lazy var datePicker = UIDatePicker()
     lazy var searchTextField = UISearchTextField()
@@ -43,7 +43,6 @@ extension TrackersNavBar {
     
     private func configureAppearance() {
         plusButton.setImage(R.Images.NavBar.plusIcon, for: .normal)
-        plusButton.addTarget(self, action: #selector(didTappedPlusButton), for: .touchUpInside)
         
         textLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         textLabel.text = "Трекеры"
@@ -53,9 +52,5 @@ extension TrackersNavBar {
         
         searchTextField.text = "Поиск..."
         searchTextField.textColor = R.Colors.trGray
-    }
-    
-    @objc func didTappedPlusButton() {
-        
     }
 }

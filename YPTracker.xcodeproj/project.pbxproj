@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40603BB92A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */; };
+		40603BBC2A205D9D005C1C64 /* DataTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BBB2A205D9D005C1C64 /* DataTracker.swift */; };
+		40603BBE2A205DB4005C1C64 /* DataTrackerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BBD2A205DB4005C1C64 /* DataTrackerProtocol.swift */; };
 		406C5A182A1F1E960036A47D /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406C5A172A1F1E960036A47D /* R.swift */; };
 		406C5A1A2A1F1EAA0036A47D /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406C5A192A1F1EAA0036A47D /* UIColor + ext.swift */; };
 		40BC62332A1F8C2500F184F2 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BC62322A1F8C2500F184F2 /* TrackerCategory.swift */; };
@@ -26,6 +29,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitOrIrregularEventViewController.swift; sourceTree = "<group>"; };
+		40603BBB2A205D9D005C1C64 /* DataTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTracker.swift; sourceTree = "<group>"; };
+		40603BBD2A205DB4005C1C64 /* DataTrackerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTrackerProtocol.swift; sourceTree = "<group>"; };
 		406C5A172A1F1E960036A47D /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		406C5A192A1F1EAA0036A47D /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
 		40BC62322A1F8C2500F184F2 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -57,6 +63,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40603BBA2A205D76005C1C64 /* TrackerGreatingFlowViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */,
+				40603BBB2A205D9D005C1C64 /* DataTracker.swift */,
+				40603BBD2A205DB4005C1C64 /* DataTrackerProtocol.swift */,
+			);
+			path = TrackerGreatingFlowViewControllers;
+			sourceTree = "<group>";
+		};
 		406C5A1B2A1F1ECC0036A47D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +169,7 @@
 				40BC62392A1F981500F184F2 /* Storyboards */,
 				40CAE2972A1629490024000B /* Assets.xcassets */,
 				40CAE29C2A1629490024000B /* Info.plist */,
+				40603BBA2A205D76005C1C64 /* TrackerGreatingFlowViewControllers */,
 				40BC623E2A1FAFBC00F184F2 /* Base */,
 				406C5A1B2A1F1ECC0036A47D /* Helpers */,
 			);
@@ -240,16 +257,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40603BBC2A205D9D005C1C64 /* DataTracker.swift in Sources */,
 				40BC623D2A1FAFAF00F184F2 /* BaseButton.swift in Sources */,
 				406C5A182A1F1E960036A47D /* R.swift in Sources */,
 				40CAE2932A1629460024000B /* TrackersViewController.swift in Sources */,
 				40E1F1DF2A1F6BDF009B439D /* UIView + ext.swift in Sources */,
+				40603BB92A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift in Sources */,
 				40E1F1DD2A1F65C0009B439D /* StatisticViewController.swift in Sources */,
 				40BC62332A1F8C2500F184F2 /* TrackerCategory.swift in Sources */,
 				40BC62372A1F8C6B00F184F2 /* TrackerRecord.swift in Sources */,
 				40E1F1E22A1F767F009B439D /* TrackersNavBar.swift in Sources */,
 				40BC62352A1F8C5100F184F2 /* Tracker.swift in Sources */,
 				40CAE28F2A1629460024000B /* AppDelegate.swift in Sources */,
+				40603BBE2A205DB4005C1C64 /* DataTrackerProtocol.swift in Sources */,
 				40E1F1D92A1F6221009B439D /* TabBarController.swift in Sources */,
 				406C5A1A2A1F1EAA0036A47D /* UIColor + ext.swift in Sources */,
 				40CAE2912A1629460024000B /* SceneDelegate.swift in Sources */,
