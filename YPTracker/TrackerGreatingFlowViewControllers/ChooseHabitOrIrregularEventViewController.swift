@@ -1,9 +1,9 @@
 import UIKit
 
 final class ChooseHabitOrIrregularEventViewController: UIViewController {
-    let titleLable = UILabel()
-    let habitButton = BaseButton(with: "Привычка")
-    let irregularEventButton = BaseButton(with: "Нерегулярное событие")
+    let titleLabel = UILabel()
+    let habitButton = BaseBlackButton(with: "Привычка")
+    let irregularEventButton = BaseBlackButton(with: "Нерегулярное событие")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,15 +16,15 @@ final class ChooseHabitOrIrregularEventViewController: UIViewController {
 extension ChooseHabitOrIrregularEventViewController {
     
     private func addViews() {
-        [titleLable, habitButton, irregularEventButton].forEach(view.setupView)
+        [titleLabel, habitButton, irregularEventButton].forEach(view.setupView)
     }
     
     private func constraintViews() {
         NSLayoutConstraint.activate([
-            titleLable.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
-            titleLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            habitButton.topAnchor.constraint(equalTo: titleLable.bottomAnchor, constant: 295),
+            habitButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 295),
             habitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             habitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -38,7 +38,20 @@ extension ChooseHabitOrIrregularEventViewController {
     private func configureAppearance() {
         view.backgroundColor = .white
         
-        titleLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLable.text = "Создание трекера"
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        titleLabel.text = "Создание трекера"
+        
+        habitButton.addTarget(self, action: #selector(didTappedHabitButton), for: .touchUpInside)
+        irregularEventButton.addTarget(self, action: #selector(didTappedIrregularEventButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTappedHabitButton() {
+        let createTrackerViewController = CreateTrackerViewController(classType: .regular)
+        present(createTrackerViewController, animated: true)
+    }
+    
+    @objc private func didTappedIrregularEventButton() {
+        let createTrackerViewController = CreateTrackerViewController(classType: .irregular)
+        present(createTrackerViewController, animated: true)
     }
 }

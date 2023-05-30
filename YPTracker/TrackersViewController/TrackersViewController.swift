@@ -3,7 +3,7 @@ import UIKit
 class TrackersViewController: UIViewController {
     
     let navBar = TrackersNavBar()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+  //   let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var currentDate: Date?
     var visibleCategories = [TrackerCategory]()
     var categories = [TrackerCategory]()

@@ -1,6 +1,6 @@
 import UIKit
 
-final class BaseButton: UIButton {
+final class BaseBlackButton: UIButton {
     let labelText: String
     
     init(with title: String) {
