@@ -8,7 +8,16 @@ final class CreateTrackerCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         self.layer.cornerRadius = 12
     }
-
+    
+    override var isSelected: Bool {
+        didSet {
+            if !isSelected {
+                backgroundColor = .none
+                layer.borderWidth = 0
+            }
+        }
+    }
+    
     func setTitleLable() {
         self.contentView.setupView(titleLabel)
         titleLabel.font = UIFont.systemFont(ofSize: 32)

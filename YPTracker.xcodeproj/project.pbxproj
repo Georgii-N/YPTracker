@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		402464AA2A2C607A00FC0584 /* CreateTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402464A92A2C607A00FC0584 /* CreateTrackerPresenter.swift */; };
+		402464AD2A2C614200FC0584 /* CreateTrackerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402464AC2A2C614200FC0584 /* CreateTrackerViewControllerProtocol.swift */; };
+		402464AF2A2C61DF00FC0584 /* CreateTrackerPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402464AE2A2C61DF00FC0584 /* CreateTrackerPresenterProtocol.swift */; };
 		404E71B02A239A1000627315 /* CreateTrackerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404E71AF2A239A1000627315 /* CreateTrackerTableViewCell.swift */; };
-		40603BB92A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */; };
+		40603BB92A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BB82A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift */; };
 		40603BC02A206B0E005C1C64 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40603BBF2A206B0E005C1C64 /* CreateTrackerViewController.swift */; };
 		406BEB9F2A2C364400AA00CF /* SсheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406BEB9E2A2C364400AA00CF /* SсheduleViewController.swift */; };
 		406BEBA12A2C3BBB00AA00CF /* BaseTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406BEBA02A2C3BBB00AA00CF /* BaseTitleLabel.swift */; };
@@ -34,8 +37,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		402464A92A2C607A00FC0584 /* CreateTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerPresenter.swift; sourceTree = "<group>"; };
+		402464AC2A2C614200FC0584 /* CreateTrackerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewControllerProtocol.swift; sourceTree = "<group>"; };
+		402464AE2A2C61DF00FC0584 /* CreateTrackerPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerPresenterProtocol.swift; sourceTree = "<group>"; };
 		404E71AF2A239A1000627315 /* CreateTrackerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerTableViewCell.swift; sourceTree = "<group>"; };
-		40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitOrIrregularEventViewController.swift; sourceTree = "<group>"; };
+		40603BB82A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTypeOfTrackerViewController.swift; sourceTree = "<group>"; };
 		40603BBF2A206B0E005C1C64 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
 		406BEB9E2A2C364400AA00CF /* SсheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SсheduleViewController.swift"; sourceTree = "<group>"; };
 		406BEBA02A2C3BBB00AA00CF /* BaseTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTitleLabel.swift; sourceTree = "<group>"; };
@@ -73,15 +79,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		40603BBA2A205D76005C1C64 /* TrackerGreatingFlowViewControllers */ = {
+		402464A62A2C592000FC0584 /* ChooseTypeOfTrackerViewController */ = {
 			isa = PBXGroup;
 			children = (
-				40603BB82A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift */,
+				40603BB82A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift */,
+			);
+			path = ChooseTypeOfTrackerViewController;
+			sourceTree = "<group>";
+		};
+		402464A72A2C592E00FC0584 /* CreateTrackerViewController */ = {
+			isa = PBXGroup;
+			children = (
 				40603BBF2A206B0E005C1C64 /* CreateTrackerViewController.swift */,
+				402464A92A2C607A00FC0584 /* CreateTrackerPresenter.swift */,
 				40E183B32A2638E0002350B0 /* CreateTrackerCollectionViewCell.swift */,
 				404E71AF2A239A1000627315 /* CreateTrackerTableViewCell.swift */,
 				40CDB10F2A2704E700466A70 /* CreateTrackerSupplementaryView.swift */,
+				402464AB2A2C60A500FC0584 /* CreateTrackerProtocol */,
+			);
+			path = CreateTrackerViewController;
+			sourceTree = "<group>";
+		};
+		402464A82A2C593500FC0584 /* CategoryViewController */ = {
+			isa = PBXGroup;
+			children = (
 				406BEBA52A2C4ACA00AA00CF /* CategoryViewController.swift */,
+			);
+			path = CategoryViewController;
+			sourceTree = "<group>";
+		};
+		402464AB2A2C60A500FC0584 /* CreateTrackerProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				402464AC2A2C614200FC0584 /* CreateTrackerViewControllerProtocol.swift */,
+				402464AE2A2C61DF00FC0584 /* CreateTrackerPresenterProtocol.swift */,
+			);
+			path = CreateTrackerProtocol;
+			sourceTree = "<group>";
+		};
+		40603BBA2A205D76005C1C64 /* TrackerGreatingFlowViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				402464A62A2C592000FC0584 /* ChooseTypeOfTrackerViewController */,
+				402464A72A2C592E00FC0584 /* CreateTrackerViewController */,
+				402464A82A2C593500FC0584 /* CategoryViewController */,
 				406BEBA22A2C412400AA00CF /* Schedule */,
 			);
 			path = TrackerGreatingFlowViewControllers;
@@ -284,13 +325,16 @@
 				40E183B42A2638E0002350B0 /* CreateTrackerCollectionViewCell.swift in Sources */,
 				406C5A182A1F1E960036A47D /* R.swift in Sources */,
 				40CDB1102A2704E700466A70 /* CreateTrackerSupplementaryView.swift in Sources */,
+				402464AD2A2C614200FC0584 /* CreateTrackerViewControllerProtocol.swift in Sources */,
 				40CAE2932A1629460024000B /* TrackersViewController.swift in Sources */,
 				40E1F1DF2A1F6BDF009B439D /* UIView + ext.swift in Sources */,
-				40603BB92A205D50005C1C64 /* ChooseHabitOrIrregularEventViewController.swift in Sources */,
+				40603BB92A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift in Sources */,
+				402464AA2A2C607A00FC0584 /* CreateTrackerPresenter.swift in Sources */,
 				406BEBA42A2C414400AA00CF /* ScheduleTableViewCell.swift in Sources */,
 				406BEBA12A2C3BBB00AA00CF /* BaseTitleLabel.swift in Sources */,
 				40E1F1DD2A1F65C0009B439D /* StatisticViewController.swift in Sources */,
 				40603BC02A206B0E005C1C64 /* CreateTrackerViewController.swift in Sources */,
+				402464AF2A2C61DF00FC0584 /* CreateTrackerPresenterProtocol.swift in Sources */,
 				40BC62332A1F8C2500F184F2 /* TrackerCategory.swift in Sources */,
 				40BC62372A1F8C6B00F184F2 /* TrackerRecord.swift in Sources */,
 				40E1F1E22A1F767F009B439D /* TrackersNavBar.swift in Sources */,

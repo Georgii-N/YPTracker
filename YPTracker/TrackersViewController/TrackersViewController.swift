@@ -43,7 +43,7 @@ extension TrackersViewController {
     }
     
     @objc private func didTappedPlusButton() {
-        let chooseHabitOrIrregularEventViewController = ChooseHabitOrIrregularEventViewController()
+        let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
         present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
     }
     

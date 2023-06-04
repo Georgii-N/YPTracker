@@ -5,7 +5,8 @@ enum TypeOfEvent {
     case irregular
 }
 
-final class CreateTrackerViewController: UIViewController {
+final class CreateTrackerViewController: UIViewController, CreateTrackerViewControllerProtocol {
+    
     private lazy var scrollView = UIScrollView()
     private lazy var titleLabel = UILabel()
     private lazy var textField = UITextField()
@@ -16,36 +17,10 @@ final class CreateTrackerViewController: UIViewController {
     private lazy var cancelButton = UIButton()
     private lazy var createButton = UIButton()
     
+    var presenter: CreateTrackerPresenterProtocol?
     var selectedTitles = ["", "2"]
-    
     var titlesFotTableView = ["Категория"]
     
-    var emojiArray = [
-        "🙂", "😻", "🌺", "🐶", "❤️", "😱",
-        "😇", "😡", "🥶", "🤔", "🙌", "🍔",
-        "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
-    ]
-    
-    var colorArray = [
-        R.Colors.ColorsForCollection.colorCollection1,
-        R.Colors.ColorsForCollection.colorCollection2,
-        R.Colors.ColorsForCollection.colorCollection3,
-        R.Colors.ColorsForCollection.colorCollection4,
-        R.Colors.ColorsForCollection.colorCollection5,
-        R.Colors.ColorsForCollection.colorCollection6,
-        R.Colors.ColorsForCollection.colorCollection7,
-        R.Colors.ColorsForCollection.colorCollection8,
-        R.Colors.ColorsForCollection.colorCollection9,
-        R.Colors.ColorsForCollection.colorCollection10,
-        R.Colors.ColorsForCollection.colorCollection11,
-        R.Colors.ColorsForCollection.colorCollection12,
-        R.Colors.ColorsForCollection.colorCollection13,
-        R.Colors.ColorsForCollection.colorCollection14,
-        R.Colors.ColorsForCollection.colorCollection15,
-        R.Colors.ColorsForCollection.colorCollection16,
-        R.Colors.ColorsForCollection.colorCollection17,
-        R.Colors.ColorsForCollection.colorCollection18
-    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,21 +207,23 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        section == 0 ? emojiArray.count : colorArray.count
+        guard let presenter = presenter else { return 0 }
+        return section == 0 ? presenter.emojiArray.count : presenter.colorArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as? CreateTrackerCollectionViewCell else
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as? CreateTrackerCollectionViewCell,
+              let presenter = presenter  else
         {
             return UICollectionViewCell()
         }
         switch indexPath.section {
         case 0:
             cell.setTitleLable()
-            cell.titleLabel.text = emojiArray[indexPath.item]
+            cell.titleLabel.text = presenter.emojiArray[indexPath.item]
         case 1:
             cell.setColorView()
-            cell.colorView.backgroundColor = colorArray[indexPath.item]
+            cell.colorView.backgroundColor = presenter.colorArray[indexPath.item]
         default:
             return UICollectionViewCell()
         }
@@ -333,12 +310,25 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
             cell.backgroundColor = R.Colors.trBackgroundDay
             
         case 1:
-            let color = cell.titleLabel.backgroundColor?.withAlphaComponent(0.3)
+            let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = color?.cgColor
         default:
             cell.backgroundColor = R.Colors.trBackgroundDay
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let selectedIndexPaths = collectionView.indexPathsForSelectedItems {
+            let selectedIndexPathsInSection = selectedIndexPaths.filter { $0.section == indexPath.section }
+            
+            if selectedIndexPathsInSection.count > 0 {
+                selectedIndexPathsInSection.forEach { selectedIndexPath in
+                    collectionView.deselectItem(at: selectedIndexPath, animated: true)
+                }
+            }
+        }
+        return true
     }
 }
 

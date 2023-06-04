@@ -1,7 +1,7 @@
 import UIKit
 
-final class ChooseHabitOrIrregularEventViewController: UIViewController {
-    let titleLabel = UILabel()
+final class ChooseTypeOfTrackerViewController: UIViewController {
+    let titleLabel = BaseTitleLabel(title: "Создание трекера")
     let habitButton = BaseBlackButton(with: "Привычка")
     let irregularEventButton = BaseBlackButton(with: "Нерегулярное событие")
     
@@ -13,7 +13,7 @@ final class ChooseHabitOrIrregularEventViewController: UIViewController {
     }
 }
 
-extension ChooseHabitOrIrregularEventViewController {
+extension ChooseTypeOfTrackerViewController {
     
     private func addViews() {
         [titleLabel, habitButton, irregularEventButton].forEach(view.setupView)
@@ -38,20 +38,23 @@ extension ChooseHabitOrIrregularEventViewController {
     private func configureAppearance() {
         view.backgroundColor = .white
         
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.text = "Создание трекера"
-        
         habitButton.addTarget(self, action: #selector(didTappedHabitButton), for: .touchUpInside)
         irregularEventButton.addTarget(self, action: #selector(didTappedIrregularEventButton), for: .touchUpInside)
     }
     
     @objc private func didTappedHabitButton() {
         let createTrackerViewController = CreateTrackerViewController(classType: .regular)
+        let createTrackerPresenter = CreateTrackerPresenter()
+        createTrackerViewController.presenter = createTrackerPresenter
+        createTrackerPresenter.view = createTrackerViewController
         present(createTrackerViewController, animated: true)
     }
     
     @objc private func didTappedIrregularEventButton() {
         let createTrackerViewController = CreateTrackerViewController(classType: .irregular)
+        let createTrackerPresenter = CreateTrackerPresenter()
+        createTrackerViewController.presenter = createTrackerPresenter
+        createTrackerPresenter.view = createTrackerViewController
         present(createTrackerViewController, animated: true)
     }
 }
