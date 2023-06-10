@@ -67,7 +67,6 @@ extension TrackersViewController {
         }
     }
     
-    
     @objc private func didTappedPlusButton() {
         let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
         let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
@@ -122,12 +121,12 @@ extension TrackersViewController : UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-           if let text = textField.text as NSString? {
-               let updatedText = text.replacingCharacters(in: range, with: string)
-               presenter?.filterArray(for: updatedText)
-           }
-           return true
-       }
+        if let text = textField.text as NSString? {
+            let updatedText = text.replacingCharacters(in: range, with: string)
+            presenter?.filterArray(for: updatedText)
+        }
+        return true
+    }
 }
 
 extension TrackersViewController: UICollectionViewDataSource {
@@ -226,7 +225,7 @@ extension TrackersViewController: TrackersViewControllerProtocol {
     
     func trackerIsCompleted(_ cell: TrackersCollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
-        let tracker = presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row]
+              let tracker = presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row]
         else { return }
         let text = presenter?.createTrackerRecord(with: tracker.id)
         cell.countOfDaysLabel.text = text

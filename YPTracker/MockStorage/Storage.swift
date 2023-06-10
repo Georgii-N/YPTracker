@@ -15,7 +15,6 @@ final class StorageSingleton {
     
     var weekDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     
-    
     var categories: [TrackerCategory] = [
         TrackerCategory(name: "Дефолтная категория",
                         listOfTrackers: [Tracker(id: UUID(),
@@ -32,7 +31,6 @@ final class StorageSingleton {
                                                  schedule: [0,3,5])
                         ])
     ]
-    
     
     func trackerScheduleToString(indexes: [Int]) -> String {
         var shortenedNames = [String]()

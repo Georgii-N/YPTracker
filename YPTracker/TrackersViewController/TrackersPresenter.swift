@@ -21,11 +21,10 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     
     func filterByDate() {
         updateVisibleCategories()
-        print("ПРИНТ \(currentDate), \(visibleCategories)")
         var filteredCategories = [TrackerCategory]()
         
         guard let date = currentDate,
-        let visibleCategories = visibleCategories else { return }
+              let visibleCategories = visibleCategories else { return }
         let calendar = Calendar.current
         var weekday = calendar.component(.weekday, from: date)
         weekday = (weekday + 5) % 7
@@ -34,13 +33,10 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         //MARK: УМЕНЬШИТЬТ СЛОЖНОСТЬ АЛГОРИТМА
         for category in visibleCategories {
             var trackers = [Tracker]()
-            print("ПРИНТ category.name \(category.name)")
             for tracker in category.listOfTrackers {
                 guard let schedule = tracker.schedule else { return }
-                print("ПРИНТ weekday \(weekday), tracker.schedule \(tracker.schedule) ")
                 if schedule.contains(weekday) {
                     trackers.append(tracker)
-                    print("ПРИНТ trackers \(trackers)")
                 } else if schedule.isEmpty {
                     trackers.append(tracker)
                 }
@@ -49,7 +45,6 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             if !trackers.isEmpty {
                 let trackerCategory = TrackerCategory(name: category.name, listOfTrackers: trackers)
                 filteredCategories.append(trackerCategory)
-                print("ПРИНТ filteredCategories \(filteredCategories)")
             }
         }
         self.visibleCategories = filteredCategories
