@@ -4,6 +4,8 @@ final class ScheduleTableViewCell: UITableViewCell {
     lazy var label = UILabel()
     lazy var switcher = UISwitch()
     
+    var delegate: ScheduleViewControllerCellDelegateProtocol?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         addViews()
@@ -33,5 +35,14 @@ final class ScheduleTableViewCell: UITableViewCell {
         contentView.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
         
         switcher.onTintColor = .systemBlue
+        switcher.addTarget(self,
+                           action: #selector(switcherValueChanged),
+                           for: .valueChanged)
+        
+    }
+    
+    @objc
+    func switcherValueChanged() {
+        delegate?.refreshSelectedDaysArray(cell: self)
     }
 }

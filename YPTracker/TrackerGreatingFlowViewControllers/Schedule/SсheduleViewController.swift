@@ -5,7 +5,10 @@ final class SсheduleViewController: UIViewController {
     let tableView = UITableView()
     let createButton = BaseBlackButton(with: "Готово")
     
-    var weekDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    var weekDays = StorageSingleton.storage.weekDays
+    
+    var selectedIndexes = [Int]()
+    var delegate: CreateTrackerPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +47,21 @@ extension SсheduleViewController {
     private func configureAppearance() {
         view.backgroundColor = .white
         
-        
         tableView.separatorStyle = .singleLine
         tableView.allowsSelection = false
         tableView.layer.cornerRadius = 16
         
+        createButton.addTarget(self,
+                               action: #selector(createButtonTapped),
+                               for: .touchUpInside)
+        
+    }
+    
+    @objc
+    func createButtonTapped() {
+        StorageSingleton.storage.trackerSchedule = selectedIndexes
+        delegate?.updateCreateTrackerSchedule()
+        dismiss(animated: true)
     }
 }
 
@@ -60,7 +73,7 @@ extension SсheduleViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ScheduleTableViewCell
         else { return UITableViewCell() }
-        
+        cell.delegate = self
         cell.label.text = weekDays[indexPath.row]
         
         if indexPath.row == weekDays.count - 1 {
@@ -77,3 +90,20 @@ extension SсheduleViewController: UITableViewDataSource {
 extension SсheduleViewController: UITableViewDelegate {
     
 }
+
+extension SсheduleViewController: ScheduleViewControllerCellDelegateProtocol {
+    func refreshSelectedDaysArray(cell: ScheduleTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let selectedIndex = indexPath.row
+        
+        if cell.switcher.isOn {
+            selectedIndexes.append(selectedIndex)
+        } else {
+            if let index = selectedIndexes.firstIndex(of: selectedIndex) {
+                selectedIndexes.remove(at: index)
+            }
+        }
+    }
+}
+
+

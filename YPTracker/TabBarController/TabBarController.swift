@@ -20,10 +20,15 @@ final class TabBarController: UITabBarController {
         tabBar.layer.masksToBounds = true
         
         let trackersViewController = TrackersViewController()
+        let trackersPresenter = TrackersPresenter()
+        trackersViewController.presenter = trackersPresenter
+        trackersPresenter.view = trackersViewController
+        
         let statisticViewController = StatisticViewController()
         
         let trackersNavigationViewController = UINavigationController(rootViewController: trackersViewController)
         trackersNavigationViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: R.Images.TabBar.trackersIcon, selectedImage: nil)
+        
         
         
         let statisticNavigationViewController = UINavigationController(rootViewController: statisticViewController)

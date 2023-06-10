@@ -43,6 +43,11 @@ enum R {
         enum NavBar {
             static let plusIcon = UIImage(named: "plus")
         }
+        
+        enum TrackersView {
+            static let plus = UIImage(named: "stub")
+            static let done = UIImage(named: "stub")
+        }
     }
 }
 
