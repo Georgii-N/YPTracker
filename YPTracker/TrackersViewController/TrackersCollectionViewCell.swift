@@ -87,6 +87,14 @@ extension TrackersCollectionViewCell {
         statesButton.addTarget(self, action: #selector(trackerIsCompleted), for: .touchUpInside)
     }
     
+    func lockStatesButton() {
+        statesButton.isEnabled = false
+    }
+    
+    func unlockStatesButton() {
+        statesButton.isEnabled = true
+    }
+    
     @objc func trackerIsCompleted() {
       
         if statesButton.titleLabel?.text == "+" {

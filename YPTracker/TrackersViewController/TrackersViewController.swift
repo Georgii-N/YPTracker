@@ -1,9 +1,21 @@
 import UIKit
 
 class TrackersViewController: UIViewController {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     let navBar = TrackersNavBar()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let stubImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = R.Images.Common.stubImage
+        return imageView
+    }()
+    
+    let textLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.text = "Что будем отслеживать?"
+        textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return textLabel
+    }()
     
     var presenter: TrackersPresenterProtocol?
     
@@ -18,6 +30,7 @@ class TrackersViewController: UIViewController {
         setCollectionView()
         
         presenter?.updateVisibleCategories()
+        presenter?.setupTodayDate(date: navBar.datePicker.date)
         presenter?.setupCurrentDate(date: navBar.datePicker.date)
     }
 }
@@ -26,6 +39,7 @@ extension TrackersViewController {
     private func addViews() {
         view.setupView(navBar)
         view.setupView(collectionView)
+        [stubImage, textLabel].forEach(view.setupView)
     }
     
     private func constraintViews() {
@@ -38,6 +52,14 @@ extension TrackersViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            stubImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stubImage.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 220),
+            
+            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textLabel.topAnchor.constraint(equalTo: stubImage.bottomAnchor, constant: 8)
         ])
     }
     
@@ -64,6 +86,19 @@ extension TrackersViewController {
         guard let visibleCategories = presenter?.visibleCategories else { return }
         if visibleCategories.count == 0 {
             self.showStub()
+        } else {
+            stubImage.isHidden = true
+            textLabel.isHidden = true
+        }
+    }
+    
+    func checkAndSetupStubAfterSearch() {
+        guard let visibleCategories = presenter?.visibleCategories else { return }
+        if visibleCategories.count == 0 {
+            self.showStubAfterSearch()
+        } else {
+            stubImage.isHidden = true
+            textLabel.isHidden = true
         }
     }
     
@@ -77,29 +112,21 @@ extension TrackersViewController {
     }
     
     private func showStub() {
-        let stubImage: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = R.Images.Common.stubImage
-            return imageView
-        }()
+        stubImage.image = R.Images.Common.stubImage
+        textLabel.text = "Что будем отслеживать"
         
-        let textLabel: UILabel = {
-            let textLabel = UILabel()
-            textLabel.text = "Что будем отслеживать?"
-            textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            return textLabel
-        }()
-        
-        [stubImage, textLabel].forEach(view.setupView)
-        
-        NSLayoutConstraint.activate([
-            stubImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stubImage.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 220),
-            
-            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textLabel.topAnchor.constraint(equalTo: stubImage.bottomAnchor, constant: 8)
-        ])
+        stubImage.isHidden = false
+        textLabel.isHidden = false
     }
+    
+    private func showStubAfterSearch() {
+        stubImage.image = R.Images.Common.stubAfterSearch
+        textLabel.text = "Ничего не найдено"
+        
+        stubImage.isHidden = false
+        textLabel.isHidden = false
+    }
+    
     
     @objc
     private func setDateFromDataPicker(_ sender: UIDatePicker) {
@@ -144,7 +171,8 @@ extension TrackersViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "collectionCell",
             for: indexPath) as? TrackersCollectionViewCell,
-              let visibleCategories = presenter?.visibleCategories
+              let visibleCategories = presenter?.visibleCategories,
+              let presenter = presenter
         else { return UICollectionViewCell() }
         cell.delegate = self
         let currentTracker = visibleCategories[indexPath.section].listOfTrackers[indexPath.row]
@@ -153,6 +181,8 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.statesButton.backgroundColor = currentTracker.color
         cell.emojiLabel.text = currentTracker.emoji
         cell.cellTextLabel.text = currentTracker.name
+        
+        presenter.checkCurrentDateIsTodayDate() ? cell.unlockStatesButton() : cell.lockStatesButton()
         
         return cell
     }

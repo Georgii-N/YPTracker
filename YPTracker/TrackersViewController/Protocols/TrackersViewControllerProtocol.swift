@@ -6,5 +6,7 @@ protocol TrackersViewControllerProtocol: AnyObject {
     
     func updateCollectionView()
     func trackerIsCompleted(_ cell: TrackersCollectionViewCell)
+    func checkAndSetupStub()
+    func checkAndSetupStubAfterSearch()
 }
 

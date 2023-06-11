@@ -38,15 +38,11 @@ enum R {
         
         enum Common {
             static let stubImage = UIImage(named: "stub")
+            static let stubAfterSearch = UIImage(named: "stubAfterSearch")
         }
         
         enum NavBar {
             static let plusIcon = UIImage(named: "plus")
-        }
-        
-        enum TrackersView {
-            static let plus = UIImage(named: "stub")
-            static let done = UIImage(named: "stub")
         }
     }
 }

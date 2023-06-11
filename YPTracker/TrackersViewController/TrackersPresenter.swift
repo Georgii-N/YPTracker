@@ -3,6 +3,7 @@ import Foundation
 final class TrackersPresenter: TrackersPresenterProtocol {
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
+    var todayDate: Date?
     var visibleCategories: [TrackerCategory]?
     
     
@@ -17,6 +18,16 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     func setupCurrentDate(date: Date) {
         currentDate = date
         filterByDate()
+    }
+    
+    func setupTodayDate(date: Date) {
+        todayDate = date
+    }
+    
+    func checkCurrentDateIsTodayDate() -> Bool  {
+        guard let currentDate = currentDate,
+              let todayDate = todayDate else { return false }
+        return todayDate > currentDate ? true : false
     }
     
     func filterByDate() {
@@ -48,6 +59,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             }
         }
         self.visibleCategories = filteredCategories
+        view?.checkAndSetupStub()
         view?.updateCollectionView()
     }
     
@@ -112,6 +124,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         } else {
             visibleCategories = StorageSingleton.storage.categories
         }
+        view?.checkAndSetupStubAfterSearch()
         view?.updateCollectionView()
     }
     
@@ -120,6 +133,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
 extension TrackersPresenter: GreatTrackerControllerDelegateProtocol {
     func refreshTrackersCollectionView() {
         updateVisibleCategories()
+        filterByDate()
         view?.updateCollectionView()
     }
 }
