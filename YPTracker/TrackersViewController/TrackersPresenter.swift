@@ -1,15 +1,10 @@
 import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
+    
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
-    var todayDate: Date?
     var visibleCategories: [TrackerCategory]?
-    
-    
-    func setDateFromDataPicker() {
-        
-    }
     
     func updateVisibleCategories() {
         visibleCategories = StorageSingleton.storage.categories
@@ -20,14 +15,10 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         filterByDate()
     }
     
-    func setupTodayDate(date: Date) {
-        todayDate = date
-    }
-    
     func checkCurrentDateIsTodayDate() -> Bool  {
-        guard let currentDate = currentDate,
-              let todayDate = todayDate else { return false }
-        return todayDate > currentDate ? true : false
+        guard let currentDate = currentDate else { return false }
+        let date = Date()
+        return date > currentDate ? true : false
     }
     
     func filterByDate() {
@@ -78,11 +69,13 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             let completedTrackers = [trackerRecord]
             StorageSingleton.storage.completedTrackers = completedTrackers
         }
-        
+        return countOfCompletedDays(id: id)
+    }
+    
+    func countOfCompletedDays(id: UUID) -> String {
         let count =
-        StorageSingleton.storage.completedTrackers == nil ?
-        0 : StorageSingleton.storage.completedTrackers!.filter { $0.id == id }.count
-        
+                StorageSingleton.storage.completedTrackers == nil ?
+                0 : StorageSingleton.storage.completedTrackers!.filter { $0.id == id }.count
         return formatDaysString(count)
     }
     
@@ -128,6 +121,16 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         view?.updateCollectionView()
     }
     
+    func checkTrackerCompletedForCurrentData(id: UUID) -> Bool {
+        guard let completedTrackers = StorageSingleton.storage.completedTrackers,
+              let currentDate = currentDate else { return false }
+        
+        if completedTrackers.contains(TrackerRecord(id: id, date: currentDate)) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 extension TrackersPresenter: GreatTrackerControllerDelegateProtocol {

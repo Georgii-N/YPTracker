@@ -30,8 +30,8 @@ class TrackersViewController: UIViewController {
         setCollectionView()
         
         presenter?.updateVisibleCategories()
-        presenter?.setupTodayDate(date: navBar.datePicker.date)
         presenter?.setupCurrentDate(date: navBar.datePicker.date)
+        updateCollectionView()
     }
 }
 
@@ -182,6 +182,9 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.emojiLabel.text = currentTracker.emoji
         cell.cellTextLabel.text = currentTracker.name
         
+        cell.countOfDaysLabel.text = presenter.countOfCompletedDays(id: currentTracker.id)
+        presenter.checkTrackerCompletedForCurrentData(id: currentTracker.id) ? cell.statesButtonTappedToCompleted() : cell.statesButtonTappedToDeselect()
+        print("ПРИНТ \(StorageSingleton.storage.completedTrackers)")
         presenter.checkCurrentDateIsTodayDate() ? cell.unlockStatesButton() : cell.lockStatesButton()
         
         return cell

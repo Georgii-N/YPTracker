@@ -95,15 +95,23 @@ extension TrackersCollectionViewCell {
         statesButton.isEnabled = true
     }
     
+    func statesButtonTappedToCompleted() {
+        statesButton.setTitle("✓", for: .normal)
+        statesButton.alpha = 0.3
+    }
+    
+    func statesButtonTappedToDeselect() {
+        statesButton.setTitle("+", for: .normal)
+        statesButton.alpha = 1
+    }
+    
     @objc func trackerIsCompleted() {
       
         if statesButton.titleLabel?.text == "+" {
-            statesButton.setTitle("✓", for: .normal)
-            statesButton.alpha = 0.3
+            statesButtonTappedToCompleted()
             delegate?.trackerIsCompleted(self)
         } else {
-            statesButton.setTitle("+", for: .normal)
-            statesButton.alpha = 1
+            statesButtonTappedToDeselect()
             delegate?.trackerIsCompleted(self)
         }
     }
