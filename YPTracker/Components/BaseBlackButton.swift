@@ -6,14 +6,14 @@ final class BaseBlackButton: UIButton {
     init(with title: String) {
         self.labelText = title
         super.init(frame: .zero)
-        configureAppearance()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         self.backgroundColor = R.Colors.trBlack
         self.setTitle(labelText, for: .normal)
         self.setTitleColor(.white, for: .normal)

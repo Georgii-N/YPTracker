@@ -3,14 +3,14 @@ import UIKit
 final class TabBarController: UITabBarController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        configureAppearance()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         tabBar.tintColor = R.Colors.trBlue
         tabBar.barTintColor = R.Colors.trGray
         tabBar.backgroundColor = .white

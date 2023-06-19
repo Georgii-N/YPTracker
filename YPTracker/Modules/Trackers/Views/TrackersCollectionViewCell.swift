@@ -6,16 +6,16 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     lazy var emojiLabel = UILabel()
     lazy var cellTextLabel = UILabel()
     lazy var countOfDaysLabel = UILabel()
-    lazy var statesButton = UIButton()
+    lazy var trackerButton = UIButton()
     
     var delegate: TrackersViewControllerProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -24,17 +24,17 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
 }
 
 extension TrackersCollectionViewCell {
-    private func addViews() {
+    private func setupViews() {
         [   cellView,
             emojiBackgroundView,
             emojiLabel,
             cellTextLabel,
             countOfDaysLabel,
-            statesButton
+            trackerButton
         ].forEach(contentView.setupView)
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             cellView.topAnchor.constraint(equalTo: contentView.topAnchor),
             cellView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -56,15 +56,15 @@ extension TrackersCollectionViewCell {
             countOfDaysLabel.topAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -16),
             countOfDaysLabel.leadingAnchor.constraint(equalTo: cellTextLabel.leadingAnchor),
             
-            statesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            statesButton.topAnchor.constraint(equalTo: cellView.bottomAnchor, constant: 8),
-            statesButton.heightAnchor.constraint(equalToConstant: 34),
-            statesButton.widthAnchor.constraint(equalToConstant: 34),
-            statesButton.centerYAnchor.constraint(equalTo: countOfDaysLabel.centerYAnchor)
+            trackerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            trackerButton.topAnchor.constraint(equalTo: cellView.bottomAnchor, constant: 8),
+            trackerButton.heightAnchor.constraint(equalToConstant: 34),
+            trackerButton.widthAnchor.constraint(equalToConstant: 34),
+            trackerButton.centerYAnchor.constraint(equalTo: countOfDaysLabel.centerYAnchor)
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         cellView.layer.cornerRadius = 16
         
         emojiBackgroundView.layer.cornerRadius = 12
@@ -80,39 +80,39 @@ extension TrackersCollectionViewCell {
         countOfDaysLabel.textColor = R.Colors.trBlack
         countOfDaysLabel.text = "0 дней"
         
-        statesButton.layer.cornerRadius = 17
-        statesButton.setTitle("+", for: .normal)
-        statesButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        statesButton.setTitleColor(.white, for: .normal)
-        statesButton.addTarget(self, action: #selector(trackerIsCompleted), for: .touchUpInside)
+        trackerButton.layer.cornerRadius = 17
+        trackerButton.setTitle("+", for: .normal)
+        trackerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        trackerButton.setTitleColor(.white, for: .normal)
+        trackerButton.addTarget(self, action: #selector(didTapTrackerButton), for: .touchUpInside)
     }
     
-    func lockStatesButton() {
-        statesButton.isEnabled = false
+    func lockTrackerButton() {
+        trackerButton.isEnabled = false
     }
     
-    func unlockStatesButton() {
-        statesButton.isEnabled = true
+    func unlockTrackerButton() {
+        trackerButton.isEnabled = true
     }
     
-    func statesButtonTappedToCompleted() {
-        statesButton.setTitle("✓", for: .normal)
-        statesButton.alpha = 0.3
+    func markTrackerAsCompleted() {
+        trackerButton.setTitle("✓", for: .normal)
+        trackerButton.alpha = 0.3
     }
     
-    func statesButtonTappedToDeselect() {
-        statesButton.setTitle("+", for: .normal)
-        statesButton.alpha = 1
+    func unmarkTrackerAsCompleted() {
+        trackerButton.setTitle("+", for: .normal)
+        trackerButton.alpha = 1
     }
     
-    @objc func trackerIsCompleted() {
+    @objc func didTapTrackerButton() {
       
-        if statesButton.titleLabel?.text == "+" {
-            statesButtonTappedToCompleted()
-            delegate?.trackerIsCompleted(self)
+        if trackerButton.titleLabel?.text == "+" {
+            markTrackerAsCompleted()
+            delegate?.showTrackerIsCompled(self)
         } else {
-            statesButtonTappedToDeselect()
-            delegate?.trackerIsCompleted(self)
+            unmarkTrackerAsCompleted()
+            delegate?.showTrackerIsCompled(self)
         }
     }
 }

@@ -12,9 +12,9 @@ final class SсheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -22,11 +22,11 @@ final class SсheduleViewController: UIViewController {
 }
 
 extension SсheduleViewController {
-    private func addViews() {
+    private func setupViews() {
         [titleLabel, tableView, createButton].forEach(view.setupView)
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -44,7 +44,7 @@ extension SсheduleViewController {
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         view.backgroundColor = .white
         
         tableView.separatorStyle = .singleLine
@@ -52,13 +52,13 @@ extension SсheduleViewController {
         tableView.layer.cornerRadius = 16
         
         createButton.addTarget(self,
-                               action: #selector(createButtonTapped),
+                               action: #selector(didTapCreateButton),
                                for: .touchUpInside)
         
     }
     
     @objc
-    func createButtonTapped() {
+    func didTapCreateButton() {
         StorageSingleton.storage.trackerSchedule = selectedIndexes
         delegate?.updateCreateTrackerSchedule()
         dismiss(animated: true)

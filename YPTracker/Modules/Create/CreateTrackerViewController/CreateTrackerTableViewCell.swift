@@ -7,19 +7,19 @@ final class CreateTrackerTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
     }
     
-    func addViews() {
+    func setupViews() {
         contentView.setupView(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(selectedLabel)
         
     }
     
-    func constraintViews() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -36,7 +36,7 @@ final class CreateTrackerTableViewCell: UITableViewCell {
         
     }
     
-    func configureAppearance() {
+    func setupUI() {
         titleLabel.textColor = R.Colors.trBlack
         selectedLabel.textColor = R.Colors.trGray
         self.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)

@@ -25,9 +25,9 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
         setupDelegatesAndDataSources()
     }
     
@@ -52,12 +52,12 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
 
 extension CreateTrackerViewController {
     
-    private func addViews() {
+    private func setupViews() {
         view.setupView(scrollView)
         [titleLabel, textField, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -96,7 +96,7 @@ extension CreateTrackerViewController {
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         view.backgroundColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.textColor = R.Colors.trBlack
@@ -124,13 +124,13 @@ extension CreateTrackerViewController {
         cancelButton.layer.borderColor = R.Colors.trRed.cgColor
         cancelButton.layer.cornerRadius = 16
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        cancelButton.addTarget(self, action: #selector(didTappedCancelButton), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         
         createButton.setTitle("Создать", for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = R.Colors.trGray
         createButton.setTitleColor(.white, for: .normal)
-        createButton.addTarget(self, action: #selector(didTappedCreateButton), for: .touchUpInside)
+        createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
     }
     
     private func setupDelegatesAndDataSources() {
@@ -168,13 +168,13 @@ extension CreateTrackerViewController {
     }
     
     @objc
-    private func didTappedCancelButton() {
+    private func didTapCancelButton() {
         clearStorageVars()
         dismiss(animated: true)
     }
     
     @objc
-    private func didTappedCreateButton() {
+    private func didTapCreateButton() {
         guard let presenter = presenter else { return }
         let newCategories = presenter.greateNewTracker()
         StorageSingleton.storage.categories = newCategories

@@ -8,18 +8,18 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
     }
     
-    private func addViews() {
+    private func setupViews() {
         contentView.setupView(label)
         contentView.setupView(switcher)
         
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -31,18 +31,18 @@ final class ScheduleTableViewCell: UITableViewCell {
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         contentView.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
         
         switcher.onTintColor = .systemBlue
         switcher.addTarget(self,
-                           action: #selector(switcherValueChanged),
+                           action: #selector(didChangeSwitcherValue),
                            for: .valueChanged)
         
     }
     
     @objc
-    func switcherValueChanged() {
+    func didChangeSwitcherValue() {
         delegate?.refreshSelectedDaysArray(cell: self)
     }
 }

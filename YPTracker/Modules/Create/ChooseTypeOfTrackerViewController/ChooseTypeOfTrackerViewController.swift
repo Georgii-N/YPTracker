@@ -10,19 +10,19 @@ final class ChooseTypeOfTrackerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
     }
 }
 
 extension ChooseTypeOfTrackerViewController {
     
-    private func addViews() {
+    private func setupViews() {
         [titleLabel, habitButton, irregularEventButton].forEach(view.setupView)
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -38,14 +38,14 @@ extension ChooseTypeOfTrackerViewController {
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         view.backgroundColor = .white
         
-        habitButton.addTarget(self, action: #selector(didTappedHabitButton), for: .touchUpInside)
-        irregularEventButton.addTarget(self, action: #selector(didTappedIrregularEventButton), for: .touchUpInside)
+        habitButton.addTarget(self, action: #selector(didTapHabitButton), for: .touchUpInside)
+        irregularEventButton.addTarget(self, action: #selector(didTapIrregularEventButton), for: .touchUpInside)
     }
     
-    @objc private func didTappedHabitButton() {
+    @objc private func didTapHabitButton() {
         let createTrackerViewController = CreateTrackerViewController(classType: .regular)
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
@@ -55,7 +55,7 @@ extension ChooseTypeOfTrackerViewController {
         present(createTrackerViewController, animated: true)
     }
     
-    @objc private func didTappedIrregularEventButton() {
+    @objc private func didTapIrregularEventButton() {
         let createTrackerViewController = CreateTrackerViewController(classType: .irregular)
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter

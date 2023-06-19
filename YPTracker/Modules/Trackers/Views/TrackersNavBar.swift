@@ -8,9 +8,9 @@ final class TrackersNavBar: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addViews()
-        constraintViews()
-        configureAppearance()
+        setupViews()
+        setupConstraints()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -19,11 +19,11 @@ final class TrackersNavBar: UIView {
 }
 
 extension TrackersNavBar {
-    private func addViews() {
+    private func setupViews() {
         [plusButton, textLabel, datePicker, searchTextField].forEach(self.setupView)
     }
     
-    private func constraintViews() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             plusButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 18),
             plusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
@@ -41,7 +41,7 @@ extension TrackersNavBar {
         ])
     }
     
-    private func configureAppearance() {
+    private func setupUI() {
         plusButton.setImage(R.Images.NavBar.plusIcon, for: .normal)
         
         textLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)

@@ -28,14 +28,12 @@ final class StorageSingleton {
                                                  color: R.Colors.ColorsForCollection.colorCollection12,
                                                  emoji: "😇",
                                                  name: "еще одна",
-                                                 schedule: [0,3,5])
-                        ]),
-        TrackerCategory(name: "Важное",
-                        listOfTrackers: [Tracker(id: UUID(),
-                                                 color: R.Colors.ColorsForCollection.colorCollection12,
-                                                 emoji: "😇",
-                                                 name: "ежедневное",
-                                                 schedule: [0,1,2,3,4,5,6])
+                                                 schedule: [0,3,5]),
+                                         Tracker(id: UUID(),
+                                                                  color: R.Colors.ColorsForCollection.colorCollection12,
+                                                                  emoji: "😇",
+                                                                  name: "ежедневное",
+                                                                  schedule: [0,2,3,4,5,6])
                         ])
     ]
     

@@ -6,7 +6,11 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     var currentDate: Date?
     var visibleCategories: [TrackerCategory]?
     
-    func updateVisibleCategories() {
+    init() {
+            getVisibleTrackersFromStorage()
+        }
+    
+    func getVisibleTrackersFromStorage() {
         visibleCategories = StorageSingleton.storage.categories
     }
     
@@ -22,7 +26,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func filterByDate() {
-        updateVisibleCategories()
+        getVisibleTrackersFromStorage()
         var filteredCategories = [TrackerCategory]()
         
         guard let date = currentDate,
@@ -32,7 +36,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         weekday = (weekday + 5) % 7
         
         
-        //MARK: УМЕНЬШИТЬТ СЛОЖНОСТЬ АЛГОРИТМА
+        //MARK: УМЕНЬШИТЬ СЛОЖНОСТЬ АЛГОРИТМА
         for category in visibleCategories {
             var trackers = [Tracker]()
             for tracker in category.listOfTrackers {
@@ -50,8 +54,8 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             }
         }
         self.visibleCategories = filteredCategories
-        view?.checkAndSetupStub()
-        view?.updateCollectionView()
+        checkVisibleTrackersAfterFilter(by: .dateFilter)
+        view?.showActualTrackers()
     }
     
     func createTrackerRecord(with id: UUID) -> String {
@@ -74,8 +78,8 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     
     func countOfCompletedDays(id: UUID) -> String {
         let count =
-                StorageSingleton.storage.completedTrackers == nil ?
-                0 : StorageSingleton.storage.completedTrackers!.filter { $0.id == id }.count
+        StorageSingleton.storage.completedTrackers == nil ?
+        0 : StorageSingleton.storage.completedTrackers!.filter { $0.id == id }.count
         return formatDaysString(count)
     }
     
@@ -117,8 +121,8 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         } else {
             visibleCategories = StorageSingleton.storage.categories
         }
-        view?.checkAndSetupStubAfterSearch()
-        view?.updateCollectionView()
+        checkVisibleTrackersAfterFilter(by: .searchFilter)
+        view?.showActualTrackers()
     }
     
     func checkTrackerCompletedForCurrentData(id: UUID) -> Bool {
@@ -131,13 +135,22 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             return false
         }
     }
+    
+    func checkVisibleTrackersAfterFilter(by filter: TypeOfStub) {
+        guard let visibleCategories = visibleCategories else { return }
+        if visibleCategories.count == 0 {
+            view?.showStub(after: filter)
+        } else {
+            view?.hideStub()
+        }
+    }
 }
 
 extension TrackersPresenter: GreatTrackerControllerDelegateProtocol {
     func refreshTrackersCollectionView() {
-        updateVisibleCategories()
+        getVisibleTrackersFromStorage()
         filterByDate()
-        view?.updateCollectionView()
+        view?.showActualTrackers()
     }
 }
 
