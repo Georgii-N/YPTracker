@@ -5,12 +5,6 @@ final class StorageSingleton {
     
     private init() {}
     
-    var selectedCategory: String?
-    var trackerName: String?
-    var trackerColor: UIColor?
-    var trackerEmoji: String?
-    var trackerSchedule: [Int]?
-    
     var completedTrackers: [TrackerRecord]?
     
     var weekDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
@@ -37,29 +31,5 @@ final class StorageSingleton {
                         ])
     ]
     
-    func trackerScheduleToString(indexes: [Int]) -> String {
-        var shortenedNames = [String]()
-        for index in indexes {
-            switch index {
-            case 0:
-                shortenedNames.append("Пн")
-            case 1:
-                shortenedNames.append("Вт")
-            case 2:
-                shortenedNames.append("Ср")
-            case 3:
-                shortenedNames.append("Чт")
-            case 4:
-                shortenedNames.append("Пт")
-            case 5:
-                shortenedNames.append("Сб")
-            case 6:
-                shortenedNames.append("Вс")
-            default:
-                shortenedNames.append("Пн")
-            }
-        }
-        
-        return shortenedNames.joined(separator: ", ")
-    }
+    
 }

@@ -2,6 +2,15 @@ import UIKit
 
 final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     weak var view: CreateTrackerViewControllerProtocol?
+
+    let coreDataManager = CoreDataManager.defaultManager
+    
+    var selectedCategory: String?
+    var trackerName: String?
+    var trackerColor: UIColor?
+    var trackerEmoji: String?
+    var trackerSchedule: [Int]?
+    
     var emojiArray = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -30,15 +39,15 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     ]
     
     func checkAndOpenCreateButton() {
-        if StorageSingleton.storage.trackerName != nil &&
-            StorageSingleton.storage.trackerColor != nil &&
-            StorageSingleton.storage.trackerEmoji != nil &&
-            StorageSingleton.storage.selectedCategory != nil {
+        if trackerName != nil &&
+            trackerColor != nil &&
+            trackerEmoji != nil &&
+            selectedCategory != nil {
             switch view?.titlesFotTableView.count {
             case 1:
                 view?.unlockCreateButton()
             case 2:
-                StorageSingleton.storage.trackerSchedule != nil ? view?.unlockCreateButton() : view?.lockCreateButton()
+                trackerSchedule != nil ? view?.unlockCreateButton() : view?.lockCreateButton()
             default:
                 view?.lockCreateButton()
             }
@@ -47,38 +56,77 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
         }
     }
     
-    func updateCreateTrackerSchedule() {
-        guard let array = StorageSingleton.storage.trackerSchedule  else { return }
-        let string = StorageSingleton.storage.trackerScheduleToString(indexes: array)
+    func updateCreateTrackerSchedule(with indexesOfDays: [Int]) {
+        self.trackerSchedule = indexesOfDays
+        let string = trackerScheduleToString(indexes: self.trackerSchedule ?? [])
         view?.selectedTitles[1] = string
         view?.reloadTableView()
     }
     
-    func greateNewTracker() -> [TrackerCategory] {
+    func greateNewTracker() {
         guard
-            let trackerName = StorageSingleton.storage.trackerName,
-            let selectedCategory = StorageSingleton.storage.selectedCategory,
-            let trackerColor = StorageSingleton.storage.trackerColor,
-            let trackerEmoji = StorageSingleton.storage.trackerEmoji
-        else { return []}
-        let categories = StorageSingleton.storage.categories
+            let trackerName = trackerName,
+            let selectedCategory = selectedCategory,
+            let trackerColor = trackerColor,
+            let trackerEmoji = trackerEmoji
+        else { return }
         
-        let tracker = Tracker(id: UUID(),
-                              color: trackerColor,
-                              emoji: trackerEmoji,
-                              name: trackerName,
-                              schedule: StorageSingleton.storage.trackerSchedule ?? [])
-        var newCategories: [TrackerCategory] = []
+        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, schedule: trackerSchedule ?? [0,1,2,3,4,5,6])
         
-        categories.forEach { category in
-            if selectedCategory == category.name {
-                var newTrackersArray = category.listOfTrackers
-                newTrackersArray.append(tracker)
-                newCategories.append(TrackerCategory(name: category.name, listOfTrackers: newTrackersArray))
-            } else {
-                newCategories.append(category)
+        coreDataManager.trackerStore?.addTracker(tracker: tracker, selectedCategory: selectedCategory)
+    }
+//        let categories = StorageSingleton.storage.categories
+//
+//        let tracker = Tracker(id: UUID(),
+//                              color: trackerColor,
+//                              emoji: trackerEmoji,
+//                              name: trackerName,
+//                              schedule: trackerSchedule ?? [0,1,2,3,4,5,6])
+//        var newCategories: [TrackerCategory] = []
+//
+//        categories.forEach { category in
+//            if selectedCategory == category.name {
+//                var newTrackersArray = category.listOfTrackers
+//                newTrackersArray.append(tracker)
+//                newCategories.append(TrackerCategory(name: category.name, listOfTrackers: newTrackersArray))
+//            } else {
+//                newCategories.append(category)
+//            }
+//        }
+//        return newCategories
+//    }
+    
+    func trackerScheduleToString(indexes: [Int]) -> String {
+        var shortenedNames = [String]()
+        for index in indexes {
+            switch index {
+            case 0:
+                shortenedNames.append("Пн")
+            case 1:
+                shortenedNames.append("Вт")
+            case 2:
+                shortenedNames.append("Ср")
+            case 3:
+                shortenedNames.append("Чт")
+            case 4:
+                shortenedNames.append("Пт")
+            case 5:
+                shortenedNames.append("Сб")
+            case 6:
+                shortenedNames.append("Вс")
+            default:
+                shortenedNames.append("Пн")
             }
         }
-        return newCategories
+        
+        return shortenedNames.joined(separator: ", ")
+    }
+    
+    func clearNewTrackerVars() {
+        trackerName = nil
+        selectedCategory = nil
+        trackerSchedule = nil
+        trackerEmoji = nil
+        trackerColor = nil
     }
 }

@@ -2,16 +2,19 @@ import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
     
+    let coreDataManager = CoreDataManager.defaultManager
+    
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
     var visibleCategories: [TrackerCategory]?
     
     init() {
-            getVisibleTrackersFromStorage()
-        }
+        coreDataManager.trackerStore?.delegate = self
+        getVisibleTrackersFromStorage()
+    }
     
     func getVisibleTrackersFromStorage() {
-        visibleCategories = StorageSingleton.storage.categories
+        visibleCategories = coreDataManager.trackerStore?.visibleCategories
     }
     
     func setupCurrentDate(date: Date) {
@@ -119,7 +122,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             }
             visibleCategories = filteredArray
         } else {
-            visibleCategories = StorageSingleton.storage.categories
+            getVisibleTrackersFromStorage()
         }
         checkVisibleTrackersAfterFilter(by: .searchFilter)
         view?.showActualTrackers()
@@ -152,6 +155,15 @@ extension TrackersPresenter: GreatTrackerControllerDelegateProtocol {
         filterByDate()
         view?.showActualTrackers()
     }
+}
+
+extension TrackersPresenter: TrackerStoreDelegate {
+    func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
+        getVisibleTrackersFromStorage()
+        view?.showActualTrackers()
+    }
+    
+    
 }
 
 

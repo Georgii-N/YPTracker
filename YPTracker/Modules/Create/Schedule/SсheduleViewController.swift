@@ -1,14 +1,12 @@
 import UIKit
 
-final class SсheduleViewController: UIViewController {
+final class SсheduleViewController: UIViewController, ScheduleViewControllerProtocol {
     let titleLabel = BaseTitleLabel(title: "Расписание")
     let tableView = UITableView()
     let createButton = BaseBlackButton(with: "Готово")
     
-    var weekDays = StorageSingleton.storage.weekDays
-    
-    var selectedIndexes = [Int]()
-    var delegate: CreateTrackerPresenterProtocol?
+    var presenter: SchedulePresenterProtocol?
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,24 +57,25 @@ extension SсheduleViewController {
     
     @objc
     func didTapCreateButton() {
-        StorageSingleton.storage.trackerSchedule = selectedIndexes
-        delegate?.updateCreateTrackerSchedule()
+//        presenter?.trackerSchedule = selectedIndexes
+        presenter?.setupSchedule()
         dismiss(animated: true)
     }
 }
 
 extension SсheduleViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        weekDays.count
+        presenter?.weekDays.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ScheduleTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ScheduleTableViewCell,
+              let presenter
         else { return UITableViewCell() }
         cell.delegate = self
-        cell.label.text = weekDays[indexPath.row]
+        cell.label.text = presenter.weekDays[indexPath.row]
         
-        if indexPath.row == weekDays.count - 1 {
+        if indexPath.row == presenter.weekDays.count - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: tableView.bounds.size.width, bottom: 0, right: 0)
         }
         return cell
@@ -93,14 +92,16 @@ extension SсheduleViewController: UITableViewDelegate {
 
 extension SсheduleViewController: ScheduleViewControllerCellDelegateProtocol {
     func refreshSelectedDaysArray(cell: ScheduleTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        guard let indexPath = tableView.indexPath(for: cell),
+              var presenter = presenter
+        else { return }
         let selectedIndex = indexPath.row
         
         if cell.switcher.isOn {
-            selectedIndexes.append(selectedIndex)
+            presenter.selectedIndexes.append(selectedIndex)
         } else {
-            if let index = selectedIndexes.firstIndex(of: selectedIndex) {
-                selectedIndexes.remove(at: index)
+            if let index = presenter.selectedIndexes.firstIndex(of: selectedIndex) {
+                presenter.selectedIndexes.remove(at: index)
             }
         }
     }

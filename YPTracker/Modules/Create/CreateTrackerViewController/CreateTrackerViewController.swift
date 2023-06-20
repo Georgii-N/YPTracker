@@ -46,7 +46,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        fatalError("init(coder:) has not been implemented")
+        assertionFailure("init(coder:) has not been implemented")
     }
 }
 
@@ -159,27 +159,17 @@ extension CreateTrackerViewController {
         tableView.reloadData()
     }
     
-    func clearStorageVars() {
-        StorageSingleton.storage.trackerName = nil
-        StorageSingleton.storage.selectedCategory = nil
-        StorageSingleton.storage.trackerSchedule = nil
-        StorageSingleton.storage.trackerEmoji = nil
-        StorageSingleton.storage.trackerColor = nil
-    }
-    
     @objc
     private func didTapCancelButton() {
-        clearStorageVars()
+        presenter?.clearNewTrackerVars()
         dismiss(animated: true)
     }
     
     @objc
     private func didTapCreateButton() {
         guard let presenter = presenter else { return }
-        let newCategories = presenter.greateNewTracker()
-        StorageSingleton.storage.categories = newCategories
-        delegate?.refreshTrackersCollectionView()
-        clearStorageVars()
+        presenter.greateNewTracker()
+        presenter.clearNewTrackerVars()
         dismiss(animated: true) {
             self.chooseTypeOfTrackerViewController?.dismiss(animated: false)
         }
@@ -192,13 +182,19 @@ extension CreateTrackerViewController {
             case 0:
                 let categoryViewController = CategoryViewController()
                 present(categoryViewController, animated: true)
-                StorageSingleton.storage.selectedCategory = "Важное"
+                presenter?.selectedCategory = "Важное"
                 selectedTitles[0] = "Важное"
                 tableView.reloadData()
                 presenter?.checkAndOpenCreateButton()
             case 1:
                 let scheduleViewController = SсheduleViewController()
-                scheduleViewController.delegate = presenter
+                let schedulePresenter = SchedulePresenter()
+                
+                scheduleViewController.presenter = schedulePresenter
+                
+                schedulePresenter.view = scheduleViewController
+                schedulePresenter.delegate = presenter
+                
                 present(scheduleViewController, animated: true)
             default:
                 return
@@ -244,7 +240,7 @@ extension CreateTrackerViewController {
         }
         
         func textFieldDidEndEditing(_ textField: UITextField) {
-            StorageSingleton.storage.trackerName = textField.text
+            presenter?.trackerName = textField.text
             presenter?.checkAndOpenCreateButton()
         }
     }
@@ -356,14 +352,14 @@ extension CreateTrackerViewController {
             switch indexPath.section {
             case 0:
                 cell.backgroundColor = R.Colors.trBackgroundDay
-                StorageSingleton.storage.trackerEmoji = cell.titleLabel.text
+                presenter?.trackerEmoji = cell.titleLabel.text
                 presenter?.checkAndOpenCreateButton()
                 
             case 1:
                 let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
                 cell.layer.borderWidth = 3
                 cell.layer.borderColor = color?.cgColor
-                StorageSingleton.storage.trackerColor = cell.colorView.backgroundColor
+                presenter?.trackerColor = cell.colorView.backgroundColor
                 presenter?.checkAndOpenCreateButton()
             default:
                 cell.backgroundColor = R.Colors.trBackgroundDay
