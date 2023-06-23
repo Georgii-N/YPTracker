@@ -20,7 +20,6 @@ final class CoreDataManager {
                 assertionFailure("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        // container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

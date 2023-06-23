@@ -57,7 +57,6 @@ extension SсheduleViewController {
     
     @objc
     func didTapCreateButton() {
-//        presenter?.trackerSchedule = selectedIndexes
         presenter?.setupSchedule()
         dismiss(animated: true)
     }

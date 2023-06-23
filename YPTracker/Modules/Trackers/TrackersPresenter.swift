@@ -6,20 +6,10 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
-    var currentDate: Date? {
-        didSet {
-            print("PRINT: currentDate \(currentDate)")
-            // Дополнительные действия при изменении переменной completedTrackers
-        }
-    }
+    var currentDate: Date?
     
     var visibleCategories: [TrackerCategory]?
-    var completedTrackers: [TrackerRecord]? {
-        didSet {
-            print("PRINT: completedTrackers \(completedTrackers)")
-            // Дополнительные действия при изменении переменной completedTrackers
-        }
-    }
+    var completedTrackers: [TrackerRecord]?
     
     init() {
         coreDataManager.trackerStore = TrackerStore()
@@ -85,8 +75,6 @@ final class TrackersPresenter: TrackersPresenterProtocol {
               let completedTrackers = completedTrackers
         else { return }
         
-//        print("PRINT: completedTrackers \((completedTrackers.count))")
-//        print("PRINT: createOrDeleteTrackerRecord date \(currentDate)")
         let trackerRecord = TrackerRecord(id: id, date: currentDate)
         
         if (completedTrackers.firstIndex(of: trackerRecord) != nil) {

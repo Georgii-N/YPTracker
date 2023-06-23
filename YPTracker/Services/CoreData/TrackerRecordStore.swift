@@ -50,9 +50,6 @@ final class TrackerRecordStore: NSObject, TrackerRecordStoreProtocol {
     
     func deleteTrackerRecord(with id: UUID, and currentDate: Date) {
         let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
-//        let calendar = Calendar.current
-//        let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: currentDate)
-//        print("PRINT: currentDateComponents \(currentDateComponents)")
         
         request.predicate = NSPredicate(format: "id == %@ AND date == %@", id as CVarArg, currentDate as CVarArg)
         
