@@ -21,7 +21,6 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     var presenter: CreateTrackerPresenterProtocol?
     var selectedTitles = ["", ""]
     var titlesFotTableView = ["Категория"]
-    var delegate: GreatTrackerControllerDelegateProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()

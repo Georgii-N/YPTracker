@@ -5,8 +5,6 @@ final class StorageSingleton {
     
     private init() {}
     
-    var completedTrackers: [TrackerRecord]?
-    
     var weekDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     
     var categories: [TrackerCategory] = [

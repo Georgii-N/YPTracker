@@ -5,7 +5,6 @@ final class ChooseTypeOfTrackerViewController: UIViewController {
     let habitButton = BaseBlackButton(with: "Привычка")
     let irregularEventButton = BaseBlackButton(with: "Нерегулярное событие")
     
-    var delegate: GreatTrackerControllerDelegateProtocol?
     var presenter: ChooseTypeOfTrackerPresenterProtocol?
     
     override func viewDidLoad() {
@@ -50,7 +49,6 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
-        createTrackerViewController.delegate = delegate
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }
@@ -60,7 +58,6 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
-        createTrackerViewController.delegate = delegate
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }

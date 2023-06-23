@@ -1,16 +1,35 @@
 import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
+
     
     let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
-    var currentDate: Date?
+    var currentDate: Date? {
+        didSet {
+            print("PRINT: currentDate \(currentDate)")
+            // Дополнительные действия при изменении переменной completedTrackers
+        }
+    }
+    
     var visibleCategories: [TrackerCategory]?
+    var completedTrackers: [TrackerRecord]? {
+        didSet {
+            print("PRINT: completedTrackers \(completedTrackers)")
+            // Дополнительные действия при изменении переменной completedTrackers
+        }
+    }
     
     init() {
+        coreDataManager.trackerStore = TrackerStore()
+        coreDataManager.trackerCategoryStore = TrackerCategoryStore()
+        coreDataManager.trackerRecordStore = TrackerRecordStore()
         coreDataManager.trackerStore?.delegate = self
+        coreDataManager.trackerRecordStore?.delegate = self
         getVisibleTrackersFromStorage()
+        getTrackersRecordFromStore()
+        
     }
     
     func getVisibleTrackersFromStorage() {
@@ -61,28 +80,28 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         view?.showActualTrackers()
     }
     
-    func createTrackerRecord(with id: UUID) -> String {
-        guard let date = currentDate
-        else { return ""}
-        let trackerRecord = TrackerRecord(id: id, date: date)
-        if var completedTrackers = StorageSingleton.storage.completedTrackers {
-            if let index = completedTrackers.firstIndex(of: trackerRecord) {
-                completedTrackers.remove(at: index)
-            } else {
-                completedTrackers.append(trackerRecord)
-            }
-            StorageSingleton.storage.completedTrackers = completedTrackers
+    func createOrDeleteTrackerRecord(with id: UUID) {
+        guard let currentDate = currentDate,
+              let completedTrackers = completedTrackers
+        else { return }
+        
+//        print("PRINT: completedTrackers \((completedTrackers.count))")
+//        print("PRINT: createOrDeleteTrackerRecord date \(currentDate)")
+        let trackerRecord = TrackerRecord(id: id, date: currentDate)
+        
+        if (completedTrackers.firstIndex(of: trackerRecord) != nil) {
+            coreDataManager.trackerRecordStore?.deleteTrackerRecord(with: id, and: currentDate)
+            getTrackersRecordFromStore()
         } else {
-            let completedTrackers = [trackerRecord]
-            StorageSingleton.storage.completedTrackers = completedTrackers
+            coreDataManager.trackerRecordStore?.addTrackerRecord(tracker: trackerRecord)
+            getTrackersRecordFromStore()
         }
-        return countOfCompletedDays(id: id)
     }
     
     func countOfCompletedDays(id: UUID) -> String {
         let count =
-        StorageSingleton.storage.completedTrackers == nil ?
-        0 : StorageSingleton.storage.completedTrackers!.filter { $0.id == id }.count
+        completedTrackers == nil ?
+        0 : completedTrackers!.filter { $0.id == id }.count
         return formatDaysString(count)
     }
     
@@ -129,7 +148,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func checkTrackerCompletedForCurrentData(id: UUID) -> Bool {
-        guard let completedTrackers = StorageSingleton.storage.completedTrackers,
+        guard let completedTrackers = completedTrackers,
               let currentDate = currentDate else { return false }
         
         if completedTrackers.contains(TrackerRecord(id: id, date: currentDate)) {
@@ -149,21 +168,22 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     }
 }
 
-extension TrackersPresenter: GreatTrackerControllerDelegateProtocol {
-    func refreshTrackersCollectionView() {
+extension TrackersPresenter: TrackerStoreDelegate {
+    func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
         getVisibleTrackersFromStorage()
+        checkVisibleTrackersAfterFilter(by: .dateFilter)
         filterByDate()
         view?.showActualTrackers()
     }
 }
 
-extension TrackersPresenter: TrackerStoreDelegate {
-    func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
-        getVisibleTrackersFromStorage()
-        view?.showActualTrackers()
+extension TrackersPresenter: TrackerRecordStoreDelegate {
+    func getTrackersRecordFromStore() {
+        completedTrackers = coreDataManager.trackerRecordStore?.getTrackersRecord()
+       
     }
     
-    
+    func showActualTrackers() {
+        view?.showActualTrackers()
+    }
 }
-
-

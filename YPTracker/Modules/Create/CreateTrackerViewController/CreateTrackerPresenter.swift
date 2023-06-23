@@ -2,7 +2,7 @@ import UIKit
 
 final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     weak var view: CreateTrackerViewControllerProtocol?
-
+    
     let coreDataManager = CoreDataManager.defaultManager
     
     var selectedCategory: String?
@@ -75,26 +75,6 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
         
         coreDataManager.trackerStore?.addTracker(tracker: tracker, selectedCategory: selectedCategory)
     }
-//        let categories = StorageSingleton.storage.categories
-//
-//        let tracker = Tracker(id: UUID(),
-//                              color: trackerColor,
-//                              emoji: trackerEmoji,
-//                              name: trackerName,
-//                              schedule: trackerSchedule ?? [0,1,2,3,4,5,6])
-//        var newCategories: [TrackerCategory] = []
-//
-//        categories.forEach { category in
-//            if selectedCategory == category.name {
-//                var newTrackersArray = category.listOfTrackers
-//                newTrackersArray.append(tracker)
-//                newCategories.append(TrackerCategory(name: category.name, listOfTrackers: newTrackersArray))
-//            } else {
-//                newCategories.append(category)
-//            }
-//        }
-//        return newCategories
-//    }
     
     func trackerScheduleToString(indexes: [Int]) -> String {
         var shortenedNames = [String]()

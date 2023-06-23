@@ -106,13 +106,12 @@ extension TrackersCollectionViewCell {
     }
     
     @objc func didTapTrackerButton() {
-      
         if trackerButton.titleLabel?.text == "+" {
             markTrackerAsCompleted()
-            delegate?.showTrackerIsCompled(self)
+            delegate?.showTrackerIsCompleted(self)
         } else {
             unmarkTrackerAsCompleted()
-            delegate?.showTrackerIsCompled(self)
+            delegate?.showTrackerIsCompleted(self)
         }
     }
 }

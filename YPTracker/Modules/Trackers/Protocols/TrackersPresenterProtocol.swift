@@ -7,7 +7,7 @@ protocol TrackersPresenterProtocol {
     
     func setupCurrentDate(date: Date)
     func checkCurrentDateIsTodayDate() -> Bool
-    func createTrackerRecord(with id: UUID) -> String
+    func createOrDeleteTrackerRecord(with id: UUID)
     func filterArray(for searchText: String)
     func filterByDate()
     func checkTrackerCompletedForCurrentData(id: UUID) -> Bool

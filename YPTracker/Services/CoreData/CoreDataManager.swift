@@ -12,9 +12,9 @@ final class CoreDataManager {
     
     // MARK: - Core Data stack
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    let persistentContainer: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(name: "TrackersCoreDataManager")
+        let container = NSPersistentContainer(name: "TrackersCoreDataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 assertionFailure("Unresolved error \(error), \(error.userInfo)")
@@ -33,12 +33,8 @@ final class CoreDataManager {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                assertionFailure("Unresolved error \(nserror), \(nserror.userInfo)")
+                assertionFailure("Ошибка при сохранении контекста Core Data: \(error), \(error.localizedDescription)")
             }
         }
-    }
-    
-    func getCategory(byName name: String) {
-        trackerCategoryStore?.getCategory(byName: name)
     }
 }

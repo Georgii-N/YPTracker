@@ -40,7 +40,6 @@ class TrackersViewController: UIViewController {
         
         presenter?.setupCurrentDate(date: navBar.datePicker.date)
         presenter?.checkVisibleTrackersAfterFilter(by: .dateFilter)
-        
         showActualTrackers()
     }
 }
@@ -102,7 +101,6 @@ extension TrackersViewController {
         let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
         present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
         guard let presenter = presenter else { return }
-        chooseHabitOrIrregularEventViewController.delegate = presenter as? GreatTrackerControllerDelegateProtocol
         chooseHabitOrIrregularEventViewController.presenter = chooseTypeOfTrackerPresenter
     }
     
@@ -252,11 +250,10 @@ extension TrackersViewController: TrackersViewControllerProtocol {
         collectionView.reloadData()
     }
     
-    func showTrackerIsCompled(_ cell: TrackersCollectionViewCell) {
+    func showTrackerIsCompleted(_ cell: TrackersCollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
               let tracker = presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row]
         else { return }
-        let text = presenter?.createTrackerRecord(with: tracker.id)
-        cell.countOfDaysLabel.text = text
+        presenter?.createOrDeleteTrackerRecord(with: tracker.id)
     }
 }

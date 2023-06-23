@@ -100,6 +100,7 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let insertedSet = insertedIndexes,
               let deletedSet = deletedIndexes else { return }
+        
         delegate?.store(self, didUpdate: TrackerStoreUpdate(insertedIndexes: insertedSet, deletedIndexes: deletedSet))
         insertedIndexes = nil
         deletedIndexes = nil
