@@ -1,7 +1,7 @@
 import Foundation
 
 class UserDefaultsManager {
-    private static let isFirstLaunchKey = "isFirstLaunchKey"
+    static let isFirstLaunchKey = "isFirstLaunchKey"
     
     static var isFirstLaunch: Bool {
         get {

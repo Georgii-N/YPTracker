@@ -8,7 +8,7 @@ final class BaseOnboardingViewController: UIViewController {
     let titleButton: String
     let image: UIImage
     
-    lazy var button = BaseBlackButton(with: titleButton)
+    lazy var onboardingButton = BaseBlackButton(with: titleButton)
     
     init(customTitle: String, titleButton: String, image: UIImage) {
         self.customTitle = customTitle
@@ -31,7 +31,7 @@ final class BaseOnboardingViewController: UIViewController {
     }
     
     private func setupViews() {
-        [imageView, titleLabel, button].forEach(view.setupView)
+        [imageView, titleLabel, onboardingButton].forEach(view.setupView)
     }
     
     private func setupConstraints() {
@@ -45,9 +45,9 @@ final class BaseOnboardingViewController: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            button.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 160),
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            onboardingButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 160),
+            onboardingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            onboardingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -57,5 +57,19 @@ final class BaseOnboardingViewController: UIViewController {
         titleLabel.text = customTitle
         titleLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         titleLabel.textColor = R.Colors.trBlack
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+        
+        onboardingButton.addTarget(self,
+                         action: #selector(didTappedOnboardingButton),
+                         for: .touchUpInside)
+        
+    }
+    
+    @objc
+    func didTappedOnboardingButton() {
+        let tabBarController = TabBarController()
+        tabBarController.modalPresentationStyle = .fullScreen
+        present(tabBarController, animated: true)
     }
 }
