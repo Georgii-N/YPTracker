@@ -74,7 +74,8 @@ extension CreateTrackerViewController {
             warningStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             warningStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             warningStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            warningStackView.heightAnchor.constraint(equalToConstant: 75),
+            
+            textField.heightAnchor.constraint(equalToConstant: 75),
             
             tableView.topAnchor.constraint(equalTo: warningStackView.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
@@ -255,7 +256,7 @@ extension CreateTrackerViewController {
                 warningLabel.isHidden = false
             } else {
                 warningLabel.isHidden = true
-                presenter?.trackerName = textField.text
+                presenter?.trackerName = text
                 presenter?.checkAndOpenCreateButton()
             }
         }
