@@ -44,6 +44,22 @@ enum R {
         enum NavBar {
             static let plusIcon = UIImage(named: "plus")
         }
+        
+        enum Onboarding {
+            static let firstPageBackground = UIImage(named: "onboardingFirst")
+            static let secondPageBackground = UIImage(named: "onboardingSecond")
+        }
+    }
+    
+    enum Strings {
+        enum Onboarding {
+            static let firstPageTitle = "Отслеживайте только то, что хотите"
+            static let secondPageTitle = "Даже если это не литры воды и йога"
+        }
+        
+        enum Buttons {
+            static let buttonOnboarding = "Вот это технологии!"
+        }
     }
 }
 
