@@ -5,8 +5,13 @@ class UserDefaultsManager {
     
     static var isFirstLaunch: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: isFirstLaunchKey)
+            if UserDefaults.standard.object(forKey: isFirstLaunchKey) == nil {
+                return true
+            } else {
+                return UserDefaults.standard.bool(forKey: isFirstLaunchKey)
+            }
         }
+        
         set {
             UserDefaults.standard.set(newValue, forKey: isFirstLaunchKey)
         }

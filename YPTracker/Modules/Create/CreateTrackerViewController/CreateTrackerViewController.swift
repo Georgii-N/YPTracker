@@ -9,13 +9,15 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     
     private lazy var scrollView = UIScrollView()
     private lazy var titleLabel = UILabel()
+    private lazy var warningStackView = UIStackView()
     private lazy var textField = UITextField()
+    private lazy var warningLabel = UILabel()
     private lazy var tableView = UITableView()
     private lazy var heightOfTableView = 150
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private lazy var buttonStackView = UIStackView()
     private lazy var cancelButton = UIButton()
     private lazy var createButton = UIButton()
+    
     
     var chooseTypeOfTrackerViewController: ChooseTypeOfTrackerViewController?
     var presenter: CreateTrackerPresenterProtocol?
@@ -53,7 +55,10 @@ extension CreateTrackerViewController {
     
     private func setupViews() {
         view.setupView(scrollView)
-        [titleLabel, textField, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        [titleLabel, warningStackView, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        
+        warningStackView.addArrangedSubview(textField)
+        warningStackView.addArrangedSubview(warningLabel)
     }
     
     private func setupConstraints() {
@@ -66,12 +71,12 @@ extension CreateTrackerViewController {
             titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
-            textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            textField.heightAnchor.constraint(equalToConstant: 75),
+            warningStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            warningStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            warningStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            warningStackView.heightAnchor.constraint(equalToConstant: 75),
             
-            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+            tableView.topAnchor.constraint(equalTo: warningStackView.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: CGFloat(heightOfTableView)),
@@ -100,6 +105,9 @@ extension CreateTrackerViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.textColor = R.Colors.trBlack
         
+        warningStackView.spacing = 8
+        warningStackView.axis = .vertical
+        
         textField.layer.cornerRadius = 16
         textField.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
         textField.placeholder = "Введите название трекера"
@@ -108,14 +116,17 @@ extension CreateTrackerViewController {
         textField.leftViewMode = .always
         textField.clearButtonMode = .whileEditing
         
+        warningLabel.isHidden = true
+        warningLabel.textColor = R.Colors.trRed
+        warningLabel.textAlignment = .center
+        warningLabel.text = "Ограничение 38 символов"
+        
         tableView.layer.cornerRadius = 17
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         collectionView.allowsMultipleSelection = true
         collectionView.isScrollEnabled = false
-        
-        
         
         cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.setTitleColor(R.Colors.trRed, for: .normal)
@@ -239,8 +250,14 @@ extension CreateTrackerViewController {
         }
         
         func textFieldDidEndEditing(_ textField: UITextField) {
-            presenter?.trackerName = textField.text
-            presenter?.checkAndOpenCreateButton()
+            guard let text = textField.text else { return }
+            if text.count > 38 {
+                warningLabel.isHidden = false
+            } else {
+                warningLabel.isHidden = true
+                presenter?.trackerName = textField.text
+                presenter?.checkAndOpenCreateButton()
+            }
         }
     }
     
