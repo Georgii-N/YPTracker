@@ -148,6 +148,7 @@ extension TrackersViewController : UITextFieldDelegate {
             let updatedText = text.replacingCharacters(in: range, with: string)
             presenter?.filterArray(for: updatedText)
         }
+        
         return true
     }
 }

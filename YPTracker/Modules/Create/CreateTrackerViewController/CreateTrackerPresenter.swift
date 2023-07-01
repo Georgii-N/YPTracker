@@ -3,9 +3,15 @@ import UIKit
 final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     weak var view: CreateTrackerViewControllerProtocol?
     
-    let coreDataManager = CoreDataManager.defaultManager
+    private let coreDataManager = CoreDataManager.defaultManager
     
-    var selectedCategory: String?
+    var selectedCategory: String? {
+        didSet {
+            view?.selectedTitles[0] = selectedCategory ?? ""
+            checkAndOpenCreateButton()
+            view?.reloadTableView()
+        }
+    }
     var trackerName: String?
     var trackerColor: UIColor?
     var trackerEmoji: String?

@@ -3,7 +3,7 @@ import Foundation
 final class TrackersPresenter: TrackersPresenterProtocol {
 
     
-    let coreDataManager = CoreDataManager.defaultManager
+    private let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?

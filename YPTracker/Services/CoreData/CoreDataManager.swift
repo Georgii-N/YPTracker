@@ -31,7 +31,7 @@ final class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                let nserror = error as NSError
+                _ = error as NSError
                 assertionFailure("Ошибка при сохранении контекста Core Data: \(error), \(error.localizedDescription)")
             }
         }

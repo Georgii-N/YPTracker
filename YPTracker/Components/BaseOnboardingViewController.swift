@@ -61,13 +61,13 @@ final class BaseOnboardingViewController: UIViewController {
         titleLabel.textAlignment = .center
         
         onboardingButton.addTarget(self,
-                         action: #selector(didTappedOnboardingButton),
+                         action: #selector(didTappOnboardingButton),
                          for: .touchUpInside)
         
     }
     
     @objc
-    func didTappedOnboardingButton() {
+    func didTappOnboardingButton() {
         let tabBarController = TabBarController()
         tabBarController.modalPresentationStyle = .fullScreen
         present(tabBarController, animated: true)

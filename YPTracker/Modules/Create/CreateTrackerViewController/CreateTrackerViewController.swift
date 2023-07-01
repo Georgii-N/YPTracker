@@ -191,11 +191,12 @@ extension CreateTrackerViewController {
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             switch indexPath.row {
             case 0:
-                let categoryViewController = CategoryViewController()
+                let categoryViewModel = CategoryViewModel()
+                categoryViewModel.delegate = presenter
+                let categoryViewController = CategoryViewController(categoryViewModel: categoryViewModel)
+                
                 present(categoryViewController, animated: true)
-                presenter?.selectedCategory = "Важное"
-                selectedTitles[0] = "Важное"
-                tableView.reloadData()
+                
                 presenter?.checkAndOpenCreateButton()
             case 1:
                 let scheduleViewController = SсheduleViewController()
