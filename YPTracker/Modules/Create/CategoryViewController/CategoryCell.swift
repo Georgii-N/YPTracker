@@ -3,17 +3,19 @@ import UIKit
 final class CategoryCell: UITableViewCell {
     lazy var titleLabel = UILabel()
     
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
         setupUI()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setupViews() {
         contentView.setupView(titleLabel)
-       
     }
     
     private func setupConstraints() {

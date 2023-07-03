@@ -95,7 +95,7 @@ extension TrackersViewController {
         stubImage.isHidden = true
         textLabel.isHidden = true
     }
-
+    
     @objc private func didTapPlusButton() {
         let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
         let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()

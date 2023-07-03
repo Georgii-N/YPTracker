@@ -18,7 +18,7 @@ final class TrackerCategoryStore: NSObject, TrackerCategoryStoreProtocol {
                                                          managedObjectContext: context,
                                                          sectionNameKeyPath: nil,
                                                          cacheName: nil)
-       fetchController.delegate = self
+        fetchController.delegate = self
         
         do {
             try fetchController.performFetch()

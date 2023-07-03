@@ -105,7 +105,7 @@ extension CategoryViewController {
     }
     
     private func bind() {
-       
+        
         categoryViewModel.$visibleCategories.bind {
             [weak self] _ in
             guard let self = self else { return }

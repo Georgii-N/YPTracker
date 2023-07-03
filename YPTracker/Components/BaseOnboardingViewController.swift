@@ -1,14 +1,14 @@
 import UIKit
 
 final class BaseOnboardingViewController: UIViewController {
-    let imageView = UIImageView()
-    let titleLabel = UILabel()
+    private lazy var imageView = UIImageView()
+    private lazy var titleLabel = UILabel()
     
-    let customTitle: String
-    let titleButton: String
-    let image: UIImage
+    private var customTitle: String
+    private var titleButton: String
+    private var image: UIImage
     
-    lazy var onboardingButton = BaseBlackButton(with: titleButton)
+    private lazy var onboardingButton = BaseBlackButton(with: titleButton)
     
     init(customTitle: String, titleButton: String, image: UIImage) {
         self.customTitle = customTitle
