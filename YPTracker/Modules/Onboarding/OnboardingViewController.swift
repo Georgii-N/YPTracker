@@ -21,8 +21,8 @@ final class OnboardingViewController: UIPageViewController {
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
         
-        pageControl.currentPageIndicatorTintColor = R.Colors.trBlack.withAlphaComponent(0.3)
-        pageControl.pageIndicatorTintColor =  R.Colors.trBlack
+        pageControl.currentPageIndicatorTintColor = R.Colors.trBlack
+        pageControl.pageIndicatorTintColor =  R.Colors.trBlack.withAlphaComponent(0.3)
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
@@ -58,40 +58,40 @@ final class OnboardingViewController: UIPageViewController {
 extension OnboardingViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController as! BaseOnboardingViewController) else {
-                    return nil
-                }
-                
-                let previousIndex = viewControllerIndex - 1
-                
-                guard previousIndex >= 0 else {
-                    return nil
-                }
-                
-                return pages[previousIndex]
+            return nil
+        }
+        
+        let previousIndex = viewControllerIndex - 1
+        
+        guard previousIndex >= 0 else {
+            return nil
+        }
+        
+        return pages[previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController as! BaseOnboardingViewController) else {
-                    return nil
-                }
-                
-                let nextIndex = viewControllerIndex + 1
-                
-                guard nextIndex < pages.count else {
-                    return nil
-                }
-                
-                return pages[nextIndex]
+            return nil
+        }
+        
+        let nextIndex = viewControllerIndex + 1
+        
+        guard nextIndex < pages.count else {
+            return nil
+        }
+        
+        return pages[nextIndex]
     }
-
+    
 }
 
 extension OnboardingViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-            
-            if let currentViewController = pageViewController.viewControllers?.first,
-               let currentIndex = pages.firstIndex(of: currentViewController as! BaseOnboardingViewController) {
-                pageControl.currentPage = currentIndex
-            }
+        
+        if let currentViewController = pageViewController.viewControllers?.first,
+           let currentIndex = pages.firstIndex(of: currentViewController as! BaseOnboardingViewController) {
+            pageControl.currentPage = currentIndex
         }
+    }
 }

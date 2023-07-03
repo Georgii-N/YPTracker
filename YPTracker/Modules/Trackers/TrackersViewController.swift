@@ -95,7 +95,7 @@ extension TrackersViewController {
         stubImage.isHidden = true
         textLabel.isHidden = true
     }
-
+    
     @objc private func didTapPlusButton() {
         let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
         let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
@@ -148,6 +148,7 @@ extension TrackersViewController : UITextFieldDelegate {
             let updatedText = text.replacingCharacters(in: range, with: string)
             presenter?.filterArray(for: updatedText)
         }
+        
         return true
     }
 }

@@ -1,9 +1,8 @@
 import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
-
     
-    let coreDataManager = CoreDataManager.defaultManager
+    private let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
@@ -19,7 +18,6 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         coreDataManager.trackerRecordStore?.delegate = self
         getVisibleTrackersFromStorage()
         getTrackersRecordFromStore()
-        
     }
     
     func getVisibleTrackersFromStorage() {
@@ -168,7 +166,7 @@ extension TrackersPresenter: TrackerStoreDelegate {
 extension TrackersPresenter: TrackerRecordStoreDelegate {
     func getTrackersRecordFromStore() {
         completedTrackers = coreDataManager.trackerRecordStore?.getTrackersRecord()
-       
+        
     }
     
     func showActualTrackers() {

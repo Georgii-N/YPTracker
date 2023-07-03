@@ -9,13 +9,15 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     
     private lazy var scrollView = UIScrollView()
     private lazy var titleLabel = UILabel()
+    private lazy var warningStackView = UIStackView()
     private lazy var textField = UITextField()
+    private lazy var warningLabel = UILabel()
     private lazy var tableView = UITableView()
     private lazy var heightOfTableView = 150
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private lazy var buttonStackView = UIStackView()
     private lazy var cancelButton = UIButton()
     private lazy var createButton = UIButton()
+    
     
     var chooseTypeOfTrackerViewController: ChooseTypeOfTrackerViewController?
     var presenter: CreateTrackerPresenterProtocol?
@@ -53,7 +55,10 @@ extension CreateTrackerViewController {
     
     private func setupViews() {
         view.setupView(scrollView)
-        [titleLabel, textField, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        [titleLabel, warningStackView, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        
+        warningStackView.addArrangedSubview(textField)
+        warningStackView.addArrangedSubview(warningLabel)
     }
     
     private func setupConstraints() {
@@ -66,12 +71,13 @@ extension CreateTrackerViewController {
             titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
-            textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            warningStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            warningStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            warningStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            
             textField.heightAnchor.constraint(equalToConstant: 75),
             
-            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+            tableView.topAnchor.constraint(equalTo: warningStackView.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: CGFloat(heightOfTableView)),
@@ -100,6 +106,9 @@ extension CreateTrackerViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.textColor = R.Colors.trBlack
         
+        warningStackView.spacing = 8
+        warningStackView.axis = .vertical
+        
         textField.layer.cornerRadius = 16
         textField.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
         textField.placeholder = "Введите название трекера"
@@ -108,14 +117,17 @@ extension CreateTrackerViewController {
         textField.leftViewMode = .always
         textField.clearButtonMode = .whileEditing
         
+        warningLabel.isHidden = true
+        warningLabel.textColor = R.Colors.trRed
+        warningLabel.textAlignment = .center
+        warningLabel.text = "Ограничение 38 символов"
+        
         tableView.layer.cornerRadius = 17
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         collectionView.allowsMultipleSelection = true
         collectionView.isScrollEnabled = false
-        
-        
         
         cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.setTitleColor(R.Colors.trRed, for: .normal)
@@ -174,208 +186,215 @@ extension CreateTrackerViewController {
         }
     }
 }
-    
-    extension CreateTrackerViewController: UITableViewDelegate {
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            switch indexPath.row {
-            case 0:
-                let categoryViewController = CategoryViewController()
-                present(categoryViewController, animated: true)
-                presenter?.selectedCategory = "Важное"
-                selectedTitles[0] = "Важное"
-                tableView.reloadData()
-                presenter?.checkAndOpenCreateButton()
-            case 1:
-                let scheduleViewController = SсheduleViewController()
-                let schedulePresenter = SchedulePresenter()
-                
-                scheduleViewController.presenter = schedulePresenter
-                
-                schedulePresenter.view = scheduleViewController
-                schedulePresenter.delegate = presenter
-                
-                present(scheduleViewController, animated: true)
-            default:
-                return
-            }
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-    }
-    
-    extension CreateTrackerViewController: UITableViewDataSource {
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return titlesFotTableView.count
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as? CreateTrackerTableViewCell else { return UITableViewCell()}
-            cell.titleLabel.text = titlesFotTableView[indexPath.row]
-            cell.accessoryType = .disclosureIndicator
+
+extension CreateTrackerViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let categoryViewModel = CategoryViewModel()
+            categoryViewModel.delegate = presenter
+            let categoryViewController = CategoryViewController(categoryViewModel: categoryViewModel)
             
-            if selectedTitles[indexPath.row] == "" {
-                cell.selectedLabel.isHidden = true
-            } else {
-                cell.selectedLabel.isHidden = false
-                cell.selectedLabel.text = selectedTitles[indexPath.row]
-            }
-            if indexPath.row == titlesFotTableView.count - 1 {
-                cell.separatorInset = UIEdgeInsets(top: 0, left: tableView.bounds.size.width, bottom: 0, right: 0)
-            }
-            return cell
+            present(categoryViewController, animated: true)
+            
+            presenter?.checkAndOpenCreateButton()
+        case 1:
+            let scheduleViewController = SсheduleViewController()
+            let schedulePresenter = SchedulePresenter()
+            
+            scheduleViewController.presenter = schedulePresenter
+            
+            schedulePresenter.view = scheduleViewController
+            schedulePresenter.delegate = presenter
+            
+            present(scheduleViewController, animated: true)
+        default:
+            return
         }
-        
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            75
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CreateTrackerViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return titlesFotTableView.count
     }
     
-    extension CreateTrackerViewController: UITextFieldDelegate {
-        func textFieldDidBeginEditing(_ textField: UITextField) {
-            textField.becomeFirstResponder()
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as? CreateTrackerTableViewCell else { return UITableViewCell()}
+        cell.titleLabel.text = titlesFotTableView[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
         
-        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()
+        if selectedTitles[indexPath.row] == "" {
+            cell.selectedLabel.isHidden = true
+        } else {
+            cell.selectedLabel.isHidden = false
+            cell.selectedLabel.text = selectedTitles[indexPath.row]
         }
-        
-        func textFieldDidEndEditing(_ textField: UITextField) {
-            presenter?.trackerName = textField.text
+        if indexPath.row == titlesFotTableView.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: tableView.bounds.size.width, bottom: 0, right: 0)
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        75
+    }
+}
+
+extension CreateTrackerViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.count > 38 {
+            warningLabel.isHidden = false
+        } else {
+            warningLabel.isHidden = true
+            presenter?.trackerName = text
             presenter?.checkAndOpenCreateButton()
         }
     }
+}
+
+extension CreateTrackerViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
+    }
     
-    extension CreateTrackerViewController: UICollectionViewDataSource {
-        func numberOfSections(in collectionView: UICollectionView) -> Int {
-            2
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let presenter = presenter else { return 0 }
+        return section == 0 ? presenter.emojiArray.count : presenter.colorArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as? CreateTrackerCollectionViewCell,
+              let presenter = presenter  else
+        {
+            return UICollectionViewCell()
+        }
+        switch indexPath.section {
+        case 0:
+            cell.setTitleLable()
+            cell.titleLabel.text = presenter.emojiArray[indexPath.item]
+        case 1:
+            cell.setColorView()
+            cell.colorView.backgroundColor = presenter.colorArray[indexPath.item]
+        default:
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        var id: String
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            id = "header"
+        default:
+            return UICollectionReusableView()
         }
         
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            guard let presenter = presenter else { return 0 }
-            return section == 0 ? presenter.emojiArray.count : presenter.colorArray.count
+        guard let view = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: id,
+            for: indexPath) as? CreateTrackerSupplementaryView else { return UICollectionReusableView() }
+        
+        switch indexPath.section {
+        case 0:
+            view.headerLabel.text = "Emoji"
+        case 1:
+            view.headerLabel.text = "Цвет"
+        default:
+            view.headerLabel.text = ""
         }
         
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as? CreateTrackerCollectionViewCell,
-                  let presenter = presenter  else
-            {
-                return UICollectionViewCell()
-            }
-            switch indexPath.section {
-            case 0:
-                cell.setTitleLable()
-                cell.titleLabel.text = presenter.emojiArray[indexPath.item]
-            case 1:
-                cell.setColorView()
-                cell.colorView.backgroundColor = presenter.colorArray[indexPath.item]
-            default:
-                return UICollectionViewCell()
-            }
-            return cell
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            var id: String
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                id = "header"
-            default:
-                return UICollectionReusableView()
-            }
-            
-            guard let view = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: id,
-                for: indexPath) as? CreateTrackerSupplementaryView else { return UICollectionReusableView() }
-            
-            switch indexPath.section {
-            case 0:
-                view.headerLabel.text = "Emoji"
-            case 1:
-                view.headerLabel.text = "Цвет"
-            default:
-                view.headerLabel.text = ""
-            }
-            
-            return view
+        return view
+    }
+}
+
+extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let availableWidth = collectionView.frame.width / 6
+        switch indexPath.section {
+        case 0:
+            let cellWidth = availableWidth - 15
+            return CGSize(width: cellWidth, height: cellWidth)
+        case 1:
+            let cellWidth = availableWidth - 20
+            return CGSize(width: cellWidth, height: cellWidth)
+        default:
+            let cellWidth = availableWidth - 15
+            return CGSize(width: cellWidth, height: cellWidth)
         }
     }
     
-    extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            5
-        }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            10
-        }
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
         
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let availableWidth = collectionView.frame.width / 6
-            switch indexPath.section {
-            case 0:
-                let cellWidth = availableWidth - 15
-                return CGSize(width: cellWidth, height: cellWidth)
-            case 1:
-                let cellWidth = availableWidth - 20
-                return CGSize(width: cellWidth, height: cellWidth)
-            default:
-                let cellWidth = availableWidth - 15
-                return CGSize(width: cellWidth, height: cellWidth)
-            }
-        }
+        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
+                                                         height: UIView.layoutFittingExpandedSize.height),
+                                                  withHorizontalFittingPriority: .required,
+                                                  verticalFittingPriority: .fittingSizeLevel)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 29, bottom: 40, right: 29)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CreateTrackerCollectionViewCell else { return }
         
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        switch indexPath.section {
+        case 0:
+            cell.backgroundColor = R.Colors.trBackgroundDay
+            presenter?.trackerEmoji = cell.titleLabel.text
+            presenter?.checkAndOpenCreateButton()
             
-            let indexPath = IndexPath(row: 0, section: section)
-            let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+        case 1:
+            let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = color?.cgColor
+            presenter?.trackerColor = cell.colorView.backgroundColor
+            presenter?.checkAndOpenCreateButton()
+        default:
+            cell.backgroundColor = R.Colors.trBackgroundDay
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let selectedIndexPaths = collectionView.indexPathsForSelectedItems {
+            let selectedIndexPathsInSection = selectedIndexPaths.filter { $0.section == indexPath.section }
             
-            return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
-                                                             height: UIView.layoutFittingExpandedSize.height),
-                                                      withHorizontalFittingPriority: .required,
-                                                      verticalFittingPriority: .fittingSizeLevel)
-        }
-        
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            insetForSectionAt section: Int) -> UIEdgeInsets {
-            UIEdgeInsets(top: 0, left: 29, bottom: 40, right: 29)
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? CreateTrackerCollectionViewCell else { return }
-            
-            switch indexPath.section {
-            case 0:
-                cell.backgroundColor = R.Colors.trBackgroundDay
-                presenter?.trackerEmoji = cell.titleLabel.text
-                presenter?.checkAndOpenCreateButton()
-                
-            case 1:
-                let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
-                cell.layer.borderWidth = 3
-                cell.layer.borderColor = color?.cgColor
-                presenter?.trackerColor = cell.colorView.backgroundColor
-                presenter?.checkAndOpenCreateButton()
-            default:
-                cell.backgroundColor = R.Colors.trBackgroundDay
-            }
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-            if let selectedIndexPaths = collectionView.indexPathsForSelectedItems {
-                let selectedIndexPathsInSection = selectedIndexPaths.filter { $0.section == indexPath.section }
-                
-                if selectedIndexPathsInSection.count > 0 {
-                    selectedIndexPathsInSection.forEach { selectedIndexPath in
-                        collectionView.deselectItem(at: selectedIndexPath, animated: true)
-                    }
+            if selectedIndexPathsInSection.count > 0 {
+                selectedIndexPathsInSection.forEach { selectedIndexPath in
+                    collectionView.deselectItem(at: selectedIndexPath, animated: true)
                 }
             }
-            return true
         }
+        return true
     }
-    
+}
+

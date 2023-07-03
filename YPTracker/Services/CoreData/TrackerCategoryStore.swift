@@ -5,8 +5,10 @@ import CoreData
 
 final class TrackerCategoryStore: NSObject, TrackerCategoryStoreProtocol {
     
-    let coreDataManager = CoreDataManager.defaultManager
-    lazy var context = coreDataManager.persistentContainer.viewContext
+    var delegate: TrackerCategoryStoreDelegate?
+    
+    private let coreDataManager = CoreDataManager.defaultManager
+    private lazy var context = coreDataManager.persistentContainer.viewContext
     
     private lazy var fetchedResultController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
@@ -16,7 +18,7 @@ final class TrackerCategoryStore: NSObject, TrackerCategoryStoreProtocol {
                                                          managedObjectContext: context,
                                                          sectionNameKeyPath: nil,
                                                          cacheName: nil)
-       fetchController.delegate = self
+        fetchController.delegate = self
         
         do {
             try fetchController.performFetch()
@@ -41,11 +43,33 @@ final class TrackerCategoryStore: NSObject, TrackerCategoryStoreProtocol {
         }
     }
     
+    func getCategoriesNames() -> [String] {
+        guard let categories = fetchedResultController.fetchedObjects else { return []}
+        var categoriesNames: [String] = []
+        
+        for item in categories {
+            if let name = item.name {
+                categoriesNames.append(name)
+            }
+        }
+        return categoriesNames
+    }
+    
+    func addCategory(with name: String) {
+        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
+        
+        trackerCategoryCoreData.name =  name
+        coreDataManager.saveContext()
+        
+    }
+    
     func deleteCategory() {
         
     }
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.fetchVisibleCategories()
+    }
 }

@@ -50,7 +50,7 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
         trackerCoreData.schedule = tracker.schedule
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.color = color
-       
+        
         let category = coreDataManager.trackerCategoryStore?.getCategory(byName: selectedCategory)
         
         trackerCoreData.category = category
@@ -71,10 +71,10 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
             for tracker in object {
                 let color = colorMarshalling.convertHexColorToRGB(from: tracker.color ?? "")
                 listOfTrackers.append(Tracker(id: tracker.id ?? UUID(),
-                                                       color: color,
-                                                       emoji: tracker.emoji ?? "",
-                                                       name: tracker.name ?? "",
-                                                       schedule: tracker.schedule))
+                                              color: color,
+                                              emoji: tracker.emoji ?? "",
+                                              name: tracker.name ?? "",
+                                              schedule: tracker.schedule))
                 
             }
             var category = TrackerCategory(name: section.name, listOfTrackers: listOfTrackers)
