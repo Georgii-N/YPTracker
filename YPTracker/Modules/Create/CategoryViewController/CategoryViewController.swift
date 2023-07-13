@@ -3,8 +3,8 @@ import UIKit
 final class CategoryViewController: UIViewController {
     var categoryViewModel: CategoryViewModel
     
-    let titleLabel = BaseTitleLabel(title: "Категория")
-    let addCategoryButton = BaseBlackButton(with: "Добавить категорию")
+    let titleLabel = BaseTitleLabel(title: NSLocalizedString("category", comment: ""))
+    let addCategoryButton = BaseBlackButton(with: NSLocalizedString("addCategory", comment: ""))
     let tableView = UITableView()
     let stubImageView = UIImageView()
     let stubLabel = UILabel()
@@ -78,7 +78,7 @@ extension CategoryViewController {
         
         stubImageView.image = R.Images.Common.stubImage
         
-        stubLabel.text = "Привычки и события можно\n объединить по смыслу"
+        stubLabel.text = NSLocalizedString("stubCategoryView", comment: "")
         stubLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         stubLabel.textColor = R.Colors.trBlack
         stubLabel.textAlignment = .center

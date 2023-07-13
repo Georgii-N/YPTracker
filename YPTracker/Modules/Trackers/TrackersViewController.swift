@@ -25,7 +25,7 @@ class TrackersViewController: UIViewController {
     
     lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.text = "Что будем отслеживать?"
+        textLabel.text = NSLocalizedString("stubAfterFilterByDate.title", comment: "")
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return textLabel
     }()
@@ -108,19 +108,11 @@ extension TrackersViewController {
         switch filter {
         case .dateFilter:
             stubImage.image = R.Images.Common.stubImage
-            textLabel.text = "Что будем отслеживать"
+            textLabel.text = NSLocalizedString("stubAfterFilterByDate.title", comment: "")
         case .searchFilter:
             stubImage.image = R.Images.Common.stubAfterSearch
-            textLabel.text = "Ничего не найдено"
+            textLabel.text = NSLocalizedString("stubAfterSearch.title", comment: "")
         }
-        stubImage.isHidden = false
-        textLabel.isHidden = false
-    }
-    
-    private func showStubAfterSearch() {
-        stubImage.image = R.Images.Common.stubAfterSearch
-        textLabel.text = "Ничего не найдено"
-        
         stubImage.isHidden = false
         textLabel.isHidden = false
     }

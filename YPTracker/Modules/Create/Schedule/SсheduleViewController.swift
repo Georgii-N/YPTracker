@@ -1,9 +1,9 @@
 import UIKit
 
 final class SсheduleViewController: UIViewController, ScheduleViewControllerProtocol {
-    let titleLabel = BaseTitleLabel(title: "Расписание")
+    let titleLabel = BaseTitleLabel(title: NSLocalizedString("schedule", comment: ""))
     let tableView = UITableView()
-    let createButton = BaseBlackButton(with: "Готово")
+    let createButton = BaseBlackButton(with: NSLocalizedString("done", comment: ""))
     
     var presenter: SchedulePresenterProtocol?
    

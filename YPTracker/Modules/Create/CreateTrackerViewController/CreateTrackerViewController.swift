@@ -22,7 +22,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     var chooseTypeOfTrackerViewController: ChooseTypeOfTrackerViewController?
     var presenter: CreateTrackerPresenterProtocol?
     var selectedTitles = ["", ""]
-    var titlesFotTableView = ["Категория"]
+    var titlesFotTableView = [NSLocalizedString("category", comment: "")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +37,10 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
         
         switch classType {
         case .regular:
-            titleLabel.text = "Новая привычка"
-            titlesFotTableView.append("Расписание")
+            titleLabel.text = NSLocalizedString("newHabbit", comment: "")
+            titlesFotTableView.append(NSLocalizedString("schedule", comment: ""))
         case .irregular:
-            titleLabel.text = "Новое нерегулярное событие"
+            titleLabel.text = NSLocalizedString("newIrregularEvent", comment: "")
             heightOfTableView = 75
         }
     }
@@ -111,7 +111,7 @@ extension CreateTrackerViewController {
         
         textField.layer.cornerRadius = 16
         textField.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = NSLocalizedString("newTrackerPlaceholder", comment: "")
         textField.textColor = R.Colors.trBlack
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
@@ -120,7 +120,7 @@ extension CreateTrackerViewController {
         warningLabel.isHidden = true
         warningLabel.textColor = R.Colors.trRed
         warningLabel.textAlignment = .center
-        warningLabel.text = "Ограничение 38 символов"
+        warningLabel.text = NSLocalizedString("warningLimit", comment: "")
         
         tableView.layer.cornerRadius = 17
         tableView.separatorStyle = .singleLine
@@ -129,7 +129,7 @@ extension CreateTrackerViewController {
         collectionView.allowsMultipleSelection = true
         collectionView.isScrollEnabled = false
         
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         cancelButton.setTitleColor(R.Colors.trRed, for: .normal)
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = R.Colors.trRed.cgColor
@@ -137,7 +137,7 @@ extension CreateTrackerViewController {
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = R.Colors.trGray
         createButton.setTitleColor(.white, for: .normal)
@@ -310,7 +310,7 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
         case 0:
             view.headerLabel.text = "Emoji"
         case 1:
-            view.headerLabel.text = "Цвет"
+            view.headerLabel.text = NSLocalizedString("color", comment: "")
         default:
             view.headerLabel.text = ""
         }

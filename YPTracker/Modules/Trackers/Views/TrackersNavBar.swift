@@ -45,12 +45,12 @@ extension TrackersNavBar {
         plusButton.setImage(R.Images.NavBar.plusIcon, for: .normal)
         
         textLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        textLabel.text = "Трекеры"
+        textLabel.text = NSLocalizedString("trackersView.title", comment: "")
         
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         
-        searchTextField.text = "Поиск..."
+        searchTextField.text = NSLocalizedString("searchFieldPlaceholder", comment: "")
         searchTextField.textColor = R.Colors.trGray
     }
 }

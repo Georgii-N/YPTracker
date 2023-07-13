@@ -3,10 +3,10 @@ import UIKit
 final class NewCategoryViewController: UIViewController, NewCategoryViewControllerProtocol {
     var presenter: NewCategoryPresenterProtocol?
     
-    private lazy var titleLabel = BaseTitleLabel(title: "Категория")
+    private lazy var titleLabel = BaseTitleLabel(title: NSLocalizedString("category", comment: ""))
     private lazy var textField = UITextField()
     private lazy var warningLabel = UILabel()
-    private lazy var addCategoryButton = BaseBlackButton(with: "Готово")
+    private lazy var addCategoryButton = BaseBlackButton(with: NSLocalizedString("done", comment: ""))
     
     
     override func viewDidLoad() {
@@ -52,7 +52,7 @@ extension NewCategoryViewController {
         titleLabel.textAlignment = .center
         
         textField.backgroundColor = R.Colors.trBackgroundDay.withAlphaComponent(0.3)
-        textField.placeholder = "Введите название категории"
+        textField.placeholder = NSLocalizedString("nameCategoryPlaceholder", comment: "")
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
@@ -61,7 +61,7 @@ extension NewCategoryViewController {
         warningLabel.isHidden = true
         warningLabel.textColor = R.Colors.trRed
         warningLabel.textAlignment = .center
-        warningLabel.text = "Такая категория уже существует"
+        warningLabel.text = NSLocalizedString("warningCategoryExist", comment: "")
         
         
         addCategoryButton.isEnabled = false

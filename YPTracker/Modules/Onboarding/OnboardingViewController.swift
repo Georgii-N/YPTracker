@@ -4,13 +4,13 @@ final class OnboardingViewController: UIPageViewController {
     
     private lazy var pages: [BaseOnboardingViewController] = {
         let firstVC = BaseOnboardingViewController(
-            customTitle: R.Strings.Onboarding.firstPageTitle,
-            titleButton: R.Strings.Buttons.buttonOnboarding,
+            customTitle: NSLocalizedString("firstPageOnboarding.title", comment: ""),
+            titleButton: NSLocalizedString("onbordingButton.title", comment: ""),
             image: R.Images.Onboarding.firstPageBackground ?? UIImage())
         
         let secondVC = BaseOnboardingViewController(
-            customTitle: R.Strings.Onboarding.secondPageTitle,
-            titleButton: R.Strings.Buttons.buttonOnboarding,
+            customTitle: NSLocalizedString("secondPageOnboarding.title", comment: ""),
+            titleButton: NSLocalizedString("onbordingButton.title", comment: ""),
             image: R.Images.Onboarding.secondPageBackground ?? UIImage())
         
         return [firstVC, secondVC]
