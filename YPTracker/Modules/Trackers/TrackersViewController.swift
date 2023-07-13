@@ -134,9 +134,6 @@ extension TrackersViewController {
 extension TrackersViewController : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
-        if textField.text == "Поиск..." {
-            textField.text = ""
-        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
