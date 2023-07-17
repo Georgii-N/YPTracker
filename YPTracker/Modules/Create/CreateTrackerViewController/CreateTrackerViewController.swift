@@ -37,7 +37,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
         
         switch classType {
         case .regular:
-            titleLabel.text = NSLocalizedString("newHabbit", comment: "")
+            titleLabel.text = NSLocalizedString("newHabit", comment: "")
             titlesFotTableView.append(NSLocalizedString("schedule", comment: ""))
         case .irregular:
             titleLabel.text = NSLocalizedString("newIrregularEvent", comment: "")

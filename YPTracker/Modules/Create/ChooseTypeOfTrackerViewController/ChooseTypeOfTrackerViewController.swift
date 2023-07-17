@@ -2,7 +2,7 @@ import UIKit
 
 final class ChooseTypeOfTrackerViewController: UIViewController {
     let titleLabel = BaseTitleLabel(title: NSLocalizedString("ChooseTypeOfTracker.title", comment: ""))
-    let habitButton = BaseBlackButton(with: NSLocalizedString("habbit", comment: ""))
+    let habitButton = BaseBlackButton(with: NSLocalizedString("habit", comment: ""))
     let irregularEventButton = BaseBlackButton(with: NSLocalizedString("irregularEvent", comment: ""))
     
     var presenter: ChooseTypeOfTrackerPresenterProtocol?

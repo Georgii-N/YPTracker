@@ -82,39 +82,18 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             coreDataManager.trackerRecordStore?.addTrackerRecord(tracker: trackerRecord)
             getTrackersRecordFromStore()
         }
+        view?.showActualTrackers()
     }
     
     func countOfCompletedDays(id: UUID) -> String {
         let count =
         completedTrackers == nil ?
         0 : completedTrackers!.filter { $0.id == id }.count
-        return formatDaysString(count)
+        let tasksString = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfDays", comment: "Number of remaining tasks"), count)
+        return tasksString
     }
     
-    func formatDaysString(_ n: Int) -> String {
-        var daysString: String
-        
-        if n == 0 {
-            daysString = "0 дней"
-        } else {
-            daysString = "\(n) дней"
-            
-            let lastDigit = n % 10
-            let lastTwoDigits = n % 100
-            
-            if lastTwoDigits >= 11 && lastTwoDigits <= 19 {
-                
-                return daysString
-            } else if lastDigit == 1 {
-                
-                daysString = "\(n) день"
-            } else if lastDigit >= 2 && lastDigit <= 4 {
-                daysString = "\(n) дня"
-            }
-        }
-        
-        return daysString
-    }
     
     func filterArray(for searchText: String) {
         if !searchText.isEmpty {
