@@ -77,7 +77,7 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
             let trackerEmoji = trackerEmoji
         else { return }
         
-        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, schedule: trackerSchedule ?? Array(0...6))
+        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, isPinned: false, schedule: trackerSchedule ?? Array(0...6))
         
         coreDataManager.trackerStore?.addTracker(tracker: tracker, selectedCategory: selectedCategory)
     }

@@ -7,7 +7,6 @@ final class SсheduleViewController: UIViewController, ScheduleViewControllerPro
     
     var presenter: SchedulePresenterProtocol?
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -28,6 +27,7 @@ extension SсheduleViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
             
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
             tableView.heightAnchor.constraint(equalToConstant: 525),

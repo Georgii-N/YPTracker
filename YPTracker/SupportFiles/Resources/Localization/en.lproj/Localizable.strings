@@ -24,6 +24,7 @@
 "firstPageOnboarding.title" = "Track only what you want";
 "secondPageOnboarding.title" = "Even if it's not liters of water and yoga";
 "onbordingButton.title" = "That's technology!";
+
 "monday" = "Monday";
 "tuesday" = "Tuesday";
 "wednesday" = "Wednesday";
@@ -32,6 +33,7 @@
 "saturday" = "Saturday";
 "sunday" = "Sunday";
 "everyDay" = "Every day";
+
 "monday.short" = "Mo";
 "tuesday.short" = "Tu";
 "wednesday.short" = "We";
@@ -39,6 +41,12 @@
 "friday.short" = "Fr";
 "saturday.short" = "Sa";
 "sunday.short" = "Su";
+
+"pin" = "Pin";
+"unpin" = "Unpin";
+"edit" = "Edit";
+"delete" = "Delete";
+"pinned" = "Pinned";
 
 
 

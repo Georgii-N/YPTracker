@@ -13,4 +13,8 @@ protocol TrackersPresenterProtocol {
     func checkTrackerCompletedForCurrentData(id: UUID) -> Bool
     func countOfCompletedDays(id: UUID) -> String
     func checkVisibleTrackersAfterFilter(by filter: TypeOfStub)
+    
+    func pinTracker(id: UUID)
+    func unpinTracker(id: UUID)
+    func deleteTracker(with id: UUID)
 }

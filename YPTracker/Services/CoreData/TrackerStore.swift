@@ -50,6 +50,7 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
         trackerCoreData.schedule = tracker.schedule
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.color = color
+        trackerCoreData.isPinned = tracker.isPinned
         
         let category = coreDataManager.trackerCategoryStore?.getCategory(byName: selectedCategory)
         
@@ -74,21 +75,66 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
                                               color: color,
                                               emoji: tracker.emoji ?? "",
                                               name: tracker.name ?? "",
+                                              isPinned: tracker.isPinned,
                                               schedule: tracker.schedule))
                 
             }
             var category = TrackerCategory(name: section.name, listOfTrackers: listOfTrackers)
             categories.append(category)
         }
-        return categories
-    }
-    
-    func deleteTrackerFromStore(tracker: Tracker) {
         
+        return updateCategoriesWithPinnedTrackers(categories: categories)
     }
     
+    func deleteTracker(with id: UUID) {
+        guard let object = fetchedResultController.fetchedObjects?.first(where: {
+            trackerCoreData in
+            trackerCoreData.id == id
+        }) else { return }
+        
+        context.delete(object)
+        coreDataManager.saveContext()
+    }
+    
+    func pinTracker(id: UUID) {
+        guard let object = fetchedResultController.fetchedObjects?.first(where: {
+            trackerCoreData in
+            trackerCoreData.id == id
+        }) else { return }
+        
+        object.isPinned = true
+        coreDataManager.saveContext()
+    }
+    
+    func unpinTracker(id: UUID) {
+        guard let object = fetchedResultController.fetchedObjects?.first(where: {
+            trackerCoreData in
+            trackerCoreData.id == id
+        }) else { return }
+        
+        object.isPinned = false
+        coreDataManager.saveContext()
+    }
+    
+    func updateCategoriesWithPinnedTrackers(categories: [TrackerCategory]) -> [TrackerCategory] {
+        var updatedCategories = categories
+        var pinnedTrackers: [Tracker] = []
+        
+        for (index, category) in updatedCategories.enumerated() {
+            let pinned = category.listOfTrackers.filter { $0.isPinned }
+            
+            updatedCategories[index].listOfTrackers = category.listOfTrackers.filter { !$0.isPinned }
+            
+            pinnedTrackers.append(contentsOf: pinned)
+        }
+        
+        let pinnedCategory = TrackerCategory(name: NSLocalizedString("pinned", comment: ""), listOfTrackers: pinnedTrackers)
+        
+        updatedCategories.insert(pinnedCategory, at: 0)
+        
+        return updatedCategories
+    }
 }
-
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {
     

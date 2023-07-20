@@ -2,6 +2,8 @@ import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
     
+    
+    
     private let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
@@ -28,6 +30,19 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         currentDate = date
         filterByDate()
     }
+    
+    func pinTracker(id: UUID) {
+        coreDataManager.trackerStore?.pinTracker(id: id)
+    }
+    
+    func unpinTracker(id: UUID) {
+        coreDataManager.trackerStore?.unpinTracker(id: id)
+    }
+    
+    func deleteTracker(with id: UUID) {
+        coreDataManager.trackerStore?.deleteTracker(with: id)
+    }
+    
     
     func checkCurrentDateIsTodayDate() -> Bool  {
         guard let currentDate = currentDate else { return false }
@@ -145,7 +160,6 @@ extension TrackersPresenter: TrackerStoreDelegate {
 extension TrackersPresenter: TrackerRecordStoreDelegate {
     func getTrackersRecordFromStore() {
         completedTrackers = coreDataManager.trackerRecordStore?.getTrackersRecord()
-        
     }
     
     func showActualTrackers() {

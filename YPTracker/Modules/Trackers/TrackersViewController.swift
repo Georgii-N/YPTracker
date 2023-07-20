@@ -233,6 +233,38 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                                                   withHorizontalFittingPriority: .required,
                                                   verticalFittingPriority: .fittingSizeLevel)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard indexPaths.count > 0 else {
+            return nil
+        }
+        let indexPath = indexPaths[0]
+        guard let id = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].id,
+              let isPinned = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].isPinned
+        else { return UIContextMenuConfiguration()}
+        
+        let pinUnpinAction = isPinned ?
+        UIAction(title: NSLocalizedString("unpin", comment: "")) { [weak self] _ in
+            self?.presenter?.unpinTracker(id: id)
+        }
+        :
+        UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
+            self?.presenter?.pinTracker(id: id)
+        }
+        
+        return UIContextMenuConfiguration(actionProvider: { actions in
+            return UIMenu(children: [
+                
+                pinUnpinAction,
+                UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
+                    
+                },
+                UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
+                    
+                }
+            ])
+        })
+    }
 }
 
 extension TrackersViewController: TrackersViewControllerProtocol {
