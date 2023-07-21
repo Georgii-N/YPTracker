@@ -3,7 +3,9 @@ import CoreData
 
 final class TrackerRecordStore: NSObject, TrackerRecordStoreProtocol {
     
-    var delegate: TrackerRecordStoreDelegate?
+    weak var delegate: TrackerRecordStoreDelegate?
+    weak var statisticDelegate: TrackerRecordStoreStatisticDelegate?
+    
     
     let coreDataManager = CoreDataManager.defaultManager
     lazy var context = coreDataManager.persistentContainer.viewContext
@@ -70,5 +72,7 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.getTrackersRecordFromStore()
         delegate?.showActualTrackers()
+        
+        statisticDelegate?.updateCount()
     }
 }

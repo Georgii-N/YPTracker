@@ -9,6 +9,7 @@ struct TrackerStoreUpdate {
 final class TrackerStore: NSObject, TrackerStoreProtocol {
     
     weak var delegate: TrackerStoreDelegate?
+   
     
     let coreDataManager = CoreDataManager.defaultManager
     lazy var context = coreDataManager.persistentContainer.viewContext

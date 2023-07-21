@@ -21,6 +21,9 @@ final class TabBarController: UITabBarController {
         trackersPresenter.view = trackersViewController
         
         let statisticViewController = StatisticViewController()
+        let statisticPresenter = StatisticPresenter()
+        statisticViewController.presenter = statisticPresenter
+        statisticPresenter.view = statisticViewController
         
         let trackersNavigationViewController = UINavigationController(rootViewController: trackersViewController)
         trackersNavigationViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackersView.title", comment: ""), image: R.Images.TabBar.trackersIcon, selectedImage: nil)
