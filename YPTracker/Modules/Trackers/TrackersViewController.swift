@@ -8,6 +8,7 @@ enum TypeOfStub {
 class TrackersViewController: UIViewController {
     
     var presenter: TrackersPresenterProtocol?
+    private let analyticsService = AnalyticsService.instance
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -42,7 +43,12 @@ class TrackersViewController: UIViewController {
         presenter?.checkVisibleTrackersAfterFilter(by: .dateFilter)
         showActualTrackers()
         applyCurrentTheme()
-        
+        analyticsService.sentEvent(typeOfEvent: .open, screen: .main, item: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        analyticsService.sentEvent(typeOfEvent: .close, screen: .main, item: nil)
     }
     
     private func applyCurrentTheme() {
@@ -158,6 +164,7 @@ extension TrackersViewController {
     @objc private func didTapPlusButton() {
         let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
         let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
+        analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .addTrack)
         present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
         guard let presenter = presenter else { return }
         chooseHabitOrIrregularEventViewController.presenter = chooseTypeOfTrackerPresenter
@@ -168,10 +175,12 @@ extension TrackersViewController {
     private func greatePinAction(isPinned: Bool, id: UUID) -> UIAction {
         if isPinned {
             return UIAction(title: NSLocalizedString("unpin", comment: "")) { [weak self] _ in
+                self?.analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .pin)
                 self?.presenter?.unpinTracker(id: id)
             }
         } else {
             return UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
+                self?.analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .unpin)
                 self?.presenter?.pinTracker(id: id)
             }
         }
@@ -313,10 +322,12 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                 
                 pinUnpinAction,
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
+                    self?.analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .edit)
                     self?.presenter?.editTracker(id: id, category: category)
                 },
                 UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                     guard let self = self else { return }
+                    analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .delete)
                     self.showDeleteAlert(id: id)
                 }
             ])
@@ -330,6 +341,7 @@ extension TrackersViewController: TrackersViewControllerProtocol {
     }
     
     func showTrackerIsCompleted(_ cell: TrackersCollectionViewCell) {
+        analyticsService.sentEvent(typeOfEvent: .click, screen: .main, item: .track)
         guard let indexPath = collectionView.indexPath(for: cell),
               let tracker = presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row]
         else { return }
