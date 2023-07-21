@@ -13,7 +13,24 @@ final class TrackersCollectionSupplementaryView: UICollectionReusableView {
         ])
         
         headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        headerLabel.textColor = R.Colors.trBlack
+       
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+            headerLabel.textColor = .white
+        } else if traitCollection.userInterfaceStyle == .light {
+            headerLabel.textColor = R.Colors.trBlack
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyCurrentTheme()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

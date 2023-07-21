@@ -53,6 +53,7 @@ class TrackersViewController: UIViewController {
             navBar.datePicker.layer.backgroundColor = R.Colors.trBackgroundWhite.cgColor
             navBar.datePicker.setValue(R.Colors.trRed, forKey: "textColor")
             
+            
         } else if traitCollection.userInterfaceStyle == .light {
             view.backgroundColor = .white
             collectionView.backgroundColor = .white

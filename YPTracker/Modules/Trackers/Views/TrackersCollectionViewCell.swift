@@ -17,10 +17,30 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         setupViews()
         setupConstraints()
         setupUI()
+        applyCurrentTheme()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+            countOfDaysLabel.textColor = .white
+            trackerButton.setTitleColor(R.Colors.trBlack, for: .normal)
+        } else if traitCollection.userInterfaceStyle == .light {
+            countOfDaysLabel.textColor = R.Colors.trBlack
+            trackerButton.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyCurrentTheme()
+        }
     }
 }
 
@@ -84,7 +104,7 @@ extension TrackersCollectionViewCell {
         cellTextLabel.textColor = .white
         
         countOfDaysLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        countOfDaysLabel.textColor = R.Colors.trBlack
+        
         countOfDaysLabel.text = "0 дней"
         
         trackerButton.layer.cornerRadius = 17
