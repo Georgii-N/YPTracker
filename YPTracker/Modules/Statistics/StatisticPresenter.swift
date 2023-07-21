@@ -9,18 +9,22 @@ final class StatisticPresenter: StatisticPresenterProtocol {
         coreDataManager.trackerRecordStore?.statisticDelegate = self
     }
     
-    func getCountOfCompletedTrackers() -> String {
+    func getCountOfCompletedTrackers() -> Int {
         if let countOfCompletedTrackers = coreDataManager.trackerRecordStore?.getTrackersRecord().count {
-            return String(countOfCompletedTrackers)
+            return countOfCompletedTrackers
         } else {
-            return "0"
+            return 0
         }
     }
 }
 
 extension StatisticPresenter: TrackerRecordStoreStatisticDelegate {
     func updateCount() {
-        let stringCount = getCountOfCompletedTrackers()
-        view?.setNewCount(count: stringCount)
+        let count = getCountOfCompletedTrackers()
+        print("PRINT count \(count)")
+        
+        count == 0 ? view?.showStub() : view?.hideStub()
+            
+        view?.setNewCount(count: String(count))
     }
 }

@@ -47,6 +47,10 @@ enum R {
             static let plusIcon = UIImage(named: "plus")
         }
         
+        enum Statistic {
+            static let statisticStub = UIImage(named: "statisticStub")
+        }
+        
         enum Onboarding {
             static let firstPageBackground = UIImage(named: "onboardingFirst")
             static let secondPageBackground = UIImage(named: "onboardingSecond")

@@ -8,8 +8,10 @@ final class StatisticViewController: UIViewController, StatisticViewControllerPr
     private lazy var textCountLabel = UILabel()
     private lazy var textLabel = UILabel()
     
-    var presenter: StatisticPresenterProtocol?
+    private lazy var stubImageView = UIImageView()
+    private lazy var stubTextLabel = UILabel()
     
+    var presenter: StatisticPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,7 @@ final class StatisticViewController: UIViewController, StatisticViewControllerPr
 
 extension StatisticViewController {
     private func setupViews() {
-        [titleLabel, gradientView, resultView, stackView].forEach(view.setupView)
+        [titleLabel, gradientView, resultView, stackView, stubImageView, stubTextLabel].forEach(view.setupView)
         stackView.addArrangedSubview(textCountLabel)
         stackView.addArrangedSubview(textLabel)
     }
@@ -37,6 +39,7 @@ extension StatisticViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 88),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             resultView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             resultView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -46,6 +49,12 @@ extension StatisticViewController {
             gradientView.centerYAnchor.constraint(equalTo: resultView.centerYAnchor),
             gradientView.heightAnchor.constraint(equalTo: resultView.heightAnchor, constant: 2),
             gradientView.widthAnchor.constraint(equalTo: resultView.widthAnchor, constant: 2),
+            
+            stubImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stubImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            stubTextLabel.topAnchor.constraint(equalTo: stubImageView.bottomAnchor, constant: 8),
+            stubTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             stackView.topAnchor.constraint(equalTo: resultView.topAnchor, constant: 12),
             stackView.leadingAnchor.constraint(equalTo: resultView.leadingAnchor, constant: 12),
@@ -61,6 +70,7 @@ extension StatisticViewController {
         
         titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         titleLabel.textColor = R.Colors.trBlack
+        titleLabel.text = NSLocalizedString("statisticView.title", comment: "")
         
         resultView.layer.cornerRadius = 16
         resultView.layer.masksToBounds = true
@@ -75,6 +85,15 @@ extension StatisticViewController {
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         textLabel.textColor = R.Colors.trBlack
         textLabel.text = NSLocalizedString("trackersCompleted", comment: "")
+        
+        stubImageView.image = R.Images.Statistic.statisticStub
+        
+        stubTextLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        
+        stubTextLabel.textColor = R.Colors.trBlack
+        stubTextLabel.textAlignment = .center
+        stubTextLabel.text = NSLocalizedString("statisticStub", comment: "")
+        
     }
     
     private func addGradientToView(view: UIView, colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) {
@@ -84,6 +103,22 @@ extension StatisticViewController {
         gradientLayer.startPoint = startPoint
         gradientLayer.endPoint = endPoint
         view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    func showStub() {
+        stubImageView.isHidden = false
+        stubTextLabel.isHidden = false
+        
+        gradientView.isHidden = true
+        stackView.isHidden = true
+    }
+    
+    func hideStub() {
+        stubImageView.isHidden = true
+        stubTextLabel.isHidden = true
+        
+        gradientView.isHidden = false
+        stackView.isHidden = false
     }
 
     
