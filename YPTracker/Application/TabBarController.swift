@@ -4,6 +4,7 @@ final class TabBarController: UITabBarController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setupUI()
+        applyCurrentTheme()
     }
     
     required init?(coder: NSCoder) {
@@ -11,11 +12,6 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupUI() {
-        tabBar.tintColor = R.Colors.trBlue
-        tabBar.barTintColor = R.Colors.trGray
-        tabBar.backgroundColor = .white
-        
-        tabBar.layer.borderColor = R.Colors.trGray.cgColor
         tabBar.layer.borderWidth = 1
         tabBar.layer.masksToBounds = true
         
@@ -35,5 +31,29 @@ final class TabBarController: UITabBarController {
         statisticNavigationViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("statisticView.title", comment: ""), image: R.Images.TabBar.statisticIcon, selectedImage: nil)
         
         setViewControllers([trackersNavigationViewController, statisticNavigationViewController], animated: false)
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+                         tabBar.backgroundColor = R.Colors.trBlack
+                         tabBar.barTintColor = R.Colors.trGray
+                         tabBar.tintColor = R.Colors.trBlue
+                         tabBar.layer.borderColor = R.Colors.trBlack.cgColor
+                         
+                     } else if traitCollection.userInterfaceStyle == .light {
+                         tabBar.tintColor = R.Colors.trBlue
+                         tabBar.barTintColor = R.Colors.trGray
+                         tabBar.backgroundColor = .white
+                         tabBar.layer.borderColor = R.Colors.trGray.cgColor
+                     }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+             traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+             applyCurrentTheme()
+         }
     }
 }

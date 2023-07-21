@@ -7,6 +7,7 @@ enum R {
         static let trBlack = UIColor(hexString: "#1A1B22")
         static let trRed = UIColor(hexString: "#F56B6C")
         static let trBackgroundDay = UIColor(hexString: "#E6E8EB")
+        static let trBackgroundWhite = UIColor(hexString: "#F0F0F0")
         
         enum ColorsForCollection {
             static let colorCollection1 = UIColor(hexString: "#FD4C49")

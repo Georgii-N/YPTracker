@@ -53,6 +53,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
                     collectionView.selectItem(at: colorIndexPath, animated: false, scrollPosition: .top)
                 }
         }
+        
     }
     
     init(classType: TypeOfEvent) {
@@ -133,7 +134,6 @@ extension CreateTrackerViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        
         titlesStackView.spacing = 38
         titlesStackView.axis = .vertical
         
@@ -338,11 +338,9 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
             
             if let trackerEmoji = presenter.trackerEmoji {
                 if presenter.emojiArray[indexPath.item] == trackerEmoji {
-                    print("PRINT if emoji")
                     self.setupUIForSelectedCell(cell: cell, indexPath: indexPath)
                 }
             }
-            
             
         case 1:
             cell.setColorView()

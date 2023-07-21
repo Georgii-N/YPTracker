@@ -41,6 +41,34 @@ class TrackersViewController: UIViewController {
         presenter?.setupCurrentDate(date: navBar.datePicker.date)
         presenter?.checkVisibleTrackersAfterFilter(by: .dateFilter)
         showActualTrackers()
+        applyCurrentTheme()
+        
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = R.Colors.trBlack
+            collectionView.backgroundColor = R.Colors.trBlack
+            navBar.backgroundColor = R.Colors.trBlack
+            navBar.datePicker.layer.backgroundColor = R.Colors.trBackgroundWhite.cgColor
+            navBar.datePicker.setValue(R.Colors.trRed, forKey: "textColor")
+            
+        } else if traitCollection.userInterfaceStyle == .light {
+            view.backgroundColor = .white
+            collectionView.backgroundColor = .white
+            navBar.backgroundColor = .white
+            navBar.datePicker.layer.backgroundColor = R.Colors.trBackgroundWhite.cgColor
+            navBar.datePicker.setValue(R.Colors.trBlack, forKey: "textColor")
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyCurrentTheme()
+        }
     }
 }
 
@@ -72,7 +100,6 @@ extension TrackersViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         
         navBar.plusButton.addTarget(self,
@@ -277,13 +304,12 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
               let isPinned = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].isPinned,
               let category = self.presenter?.visibleCategories?[indexPath.section].name
         else { return UIContextMenuConfiguration()}
-        print("PRINT category: \(category)")
-
+        
         let pinUnpinAction = greatePinAction(isPinned: isPinned, id: id)
-
+        
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
-
+                
                 pinUnpinAction,
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                     self?.presenter?.editTracker(id: id, category: category)
