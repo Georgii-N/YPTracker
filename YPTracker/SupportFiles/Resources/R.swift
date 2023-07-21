@@ -39,6 +39,7 @@ enum R {
         enum Common {
             static let stubImage = UIImage(named: "stub")
             static let stubAfterSearch = UIImage(named: "stubAfterSearch")
+            static let pinned = UIImage(named: "pinned")
         }
         
         enum NavBar {

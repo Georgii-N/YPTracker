@@ -6,5 +6,6 @@ protocol TrackerStoreProtocol {
     func addTracker(tracker: Tracker, selectedCategory: String)
     func pinTracker(id: UUID)
     func unpinTracker(id: UUID)
-    func deleteTracker(with id: UUID)
+    func deleteTracker(id: UUID)
+    func getTracker(id: UUID) -> Tracker?
 }

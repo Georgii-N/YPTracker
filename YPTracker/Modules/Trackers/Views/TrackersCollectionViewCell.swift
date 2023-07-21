@@ -7,6 +7,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     lazy var cellTextLabel = UILabel()
     lazy var countOfDaysLabel = UILabel()
     lazy var trackerButton = UIButton()
+    lazy var pinnedImageView = UIImageView()
     
     var delegate: TrackersViewControllerProtocol?
     
@@ -30,7 +31,8 @@ extension TrackersCollectionViewCell {
             emojiLabel,
             cellTextLabel,
             countOfDaysLabel,
-            trackerButton
+            trackerButton,
+            pinnedImageView
         ].forEach(contentView.setupView)
     }
     
@@ -48,6 +50,9 @@ extension TrackersCollectionViewCell {
             
             emojiLabel.centerXAnchor.constraint(equalTo: emojiBackgroundView.centerXAnchor),
             emojiLabel.centerYAnchor.constraint(equalTo: emojiBackgroundView.centerYAnchor),
+            
+            pinnedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            pinnedImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             
             cellTextLabel.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: 12),
             cellTextLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -12),
@@ -72,6 +77,8 @@ extension TrackersCollectionViewCell {
         
         emojiLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         
+        pinnedImageView.image = R.Images.Common.pinned
+        pinnedImageView.isHidden = true
         
         cellTextLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         cellTextLabel.textColor = .white
@@ -115,4 +122,3 @@ extension TrackersCollectionViewCell {
         }
     }
 }
-

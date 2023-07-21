@@ -16,5 +16,6 @@ protocol TrackersPresenterProtocol {
     
     func pinTracker(id: UUID)
     func unpinTracker(id: UUID)
-    func deleteTracker(with id: UUID)
+    func deleteTracker(id: UUID)
+    func editTracker(id: UUID, category: String)
 }

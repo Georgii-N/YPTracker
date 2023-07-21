@@ -8,7 +8,9 @@ enum TypeOfEvent {
 final class CreateTrackerViewController: UIViewController, CreateTrackerViewControllerProtocol {
     
     private lazy var scrollView = UIScrollView()
+    private lazy var titlesStackView = UIStackView()
     private lazy var titleLabel = UILabel()
+    private lazy var titleCountOfDaysLabel = UILabel()
     private lazy var warningStackView = UIStackView()
     private lazy var textField = UITextField()
     private lazy var warningLabel = UILabel()
@@ -19,6 +21,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
     private lazy var createButton = UIButton()
     
     
+    var isEdit: Bool = false
     var chooseTypeOfTrackerViewController: ChooseTypeOfTrackerViewController?
     var presenter: CreateTrackerPresenterProtocol?
     var selectedTitles = ["", ""]
@@ -30,6 +33,26 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
         setupConstraints()
         setupUI()
         setupDelegatesAndDataSources()
+        
+        if isEdit {
+            titleLabel.text = NSLocalizedString("editingHabit", comment: "")
+            titleCountOfDaysLabel.isHidden = false
+            changeTitleOfCreateButton()
+            presenter?.updateCreateTrackerSchedule(with: presenter?.trackerSchedule ?? [])
+            
+            textField.text = presenter?.trackerName
+            titleCountOfDaysLabel.text = presenter?.trackerRecord
+            
+            if let presenter = presenter, let emojiIndex = presenter.emojiArray.firstIndex(of: presenter.trackerEmoji ?? "") {
+                    let emojiIndexPath = IndexPath(item: emojiIndex, section: 0)
+                    collectionView.selectItem(at: emojiIndexPath, animated: false, scrollPosition: .top)
+                }
+
+            if let presenter = presenter, let colorIndex = presenter.colorArray.firstIndex(of: presenter.trackerColor ?? .red) {
+                    let colorIndexPath = IndexPath(item: colorIndex, section: 1)
+                    collectionView.selectItem(at: colorIndexPath, animated: false, scrollPosition: .top)
+                }
+        }
     }
     
     init(classType: TypeOfEvent) {
@@ -55,7 +78,10 @@ extension CreateTrackerViewController {
     
     private func setupViews() {
         view.setupView(scrollView)
-        [titleLabel, warningStackView, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        [titlesStackView, warningStackView, tableView, collectionView, cancelButton, createButton].forEach(scrollView.setupView)
+        
+        titlesStackView.addArrangedSubview(titleLabel)
+        titlesStackView.addArrangedSubview(titleCountOfDaysLabel)
         
         warningStackView.addArrangedSubview(textField)
         warningStackView.addArrangedSubview(warningLabel)
@@ -68,10 +94,14 @@ extension CreateTrackerViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 27),
-            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titlesStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 27),
+            titlesStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
-            warningStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            titleCountOfDaysLabel.bottomAnchor.constraint(equalTo: titlesStackView.bottomAnchor, constant: -2),
+            titleCountOfDaysLabel.heightAnchor.constraint(equalToConstant: 38),
+            
+            
+            warningStackView.topAnchor.constraint(equalTo: titlesStackView.bottomAnchor, constant: 38),
             warningStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             warningStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             
@@ -84,7 +114,7 @@ extension CreateTrackerViewController {
             tableView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
             
             collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            collectionView.heightAnchor.constraint(equalToConstant: 500),
+            collectionView.heightAnchor.constraint(equalToConstant: 550),
             collectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
             cancelButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 46),
@@ -103,8 +133,19 @@ extension CreateTrackerViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
+        
+        titlesStackView.spacing = 38
+        titlesStackView.axis = .vertical
+        
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.textColor = R.Colors.trBlack
+        titleLabel.textAlignment = .center
+        
+        titleCountOfDaysLabel.isHidden = true
+        titleCountOfDaysLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        titleCountOfDaysLabel.textColor = R.Colors.trBlack
+        titleCountOfDaysLabel.text = "5 дней"
+        titleCountOfDaysLabel.textAlignment = .center
         
         warningStackView.spacing = 8
         warningStackView.axis = .vertical
@@ -170,6 +211,14 @@ extension CreateTrackerViewController {
         tableView.reloadData()
     }
     
+    func showTitleCountsOfDays() {
+        titleCountOfDaysLabel.isHidden = false
+    }
+    
+    func changeTitleOfCreateButton() {
+        createButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
+    }
+    
     @objc
     private func didTapCancelButton() {
         presenter?.clearNewTrackerVars()
@@ -179,6 +228,9 @@ extension CreateTrackerViewController {
     @objc
     private func didTapCreateButton() {
         guard let presenter = presenter else { return }
+        if !titleCountOfDaysLabel.isHidden {
+            presenter.deleteTracker()
+        }
         presenter.greateNewTracker()
         presenter.clearNewTrackerVars()
         dismiss(animated: true) {
@@ -283,9 +335,23 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
         case 0:
             cell.setTitleLable()
             cell.titleLabel.text = presenter.emojiArray[indexPath.item]
+            
+            if let trackerEmoji = presenter.trackerEmoji {
+                if presenter.emojiArray[indexPath.item] == trackerEmoji {
+                    print("PRINT if emoji")
+                    self.setupUIForSelectedCell(cell: cell, indexPath: indexPath)
+                }
+            }
+            
+            
         case 1:
             cell.setColorView()
             cell.colorView.backgroundColor = presenter.colorArray[indexPath.item]
+            
+            if presenter.colorArray[indexPath.item] == presenter.trackerColor {
+                self.setupUIForSelectedCell(cell: cell, indexPath: indexPath)
+            }
+            
         default:
             return UICollectionViewCell()
         }
@@ -366,22 +432,25 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? CreateTrackerCollectionViewCell else { return }
-        
+        self.setupUIForSelectedCell(cell: cell, indexPath: indexPath)
+    }
+    
+    func setupUIForSelectedCell(cell: CreateTrackerCollectionViewCell, indexPath: IndexPath) {
         switch indexPath.section {
-        case 0:
-            cell.backgroundColor = R.Colors.trBackgroundDay
-            presenter?.trackerEmoji = cell.titleLabel.text
-            presenter?.checkAndOpenCreateButton()
-            
-        case 1:
-            let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
-            cell.layer.borderWidth = 3
-            cell.layer.borderColor = color?.cgColor
-            presenter?.trackerColor = cell.colorView.backgroundColor
-            presenter?.checkAndOpenCreateButton()
-        default:
-            cell.backgroundColor = R.Colors.trBackgroundDay
-        }
+                case 0:
+                    cell.backgroundColor = R.Colors.trBackgroundDay
+                    presenter?.trackerEmoji = cell.titleLabel.text
+                    presenter?.checkAndOpenCreateButton()
+                    
+                case 1:
+                    let color = cell.colorView.backgroundColor?.withAlphaComponent(0.3)
+                    cell.layer.borderWidth = 3
+                    cell.layer.borderColor = color?.cgColor
+                    presenter?.trackerColor = cell.colorView.backgroundColor
+                    presenter?.checkAndOpenCreateButton()
+                default:
+                    cell.backgroundColor = R.Colors.trBackgroundDay
+                }
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

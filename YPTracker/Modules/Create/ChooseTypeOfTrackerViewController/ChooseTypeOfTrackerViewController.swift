@@ -49,6 +49,7 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
+        createTrackerViewController.isEdit = false
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }
@@ -58,6 +59,7 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
+        createTrackerViewController.isEdit = false
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }

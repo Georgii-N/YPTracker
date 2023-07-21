@@ -16,6 +16,9 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     var trackerColor: UIColor?
     var trackerEmoji: String?
     var trackerSchedule: [Int]?
+    var idTracker: UUID?
+    var trackerRecord: String?
+    
     
     var emojiArray = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -77,9 +80,14 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
             let trackerEmoji = trackerEmoji
         else { return }
         
-        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, isPinned: false, schedule: trackerSchedule ?? Array(0...6))
+        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, isPinned: false, schedule: trackerSchedule ?? nil)
         
         coreDataManager.trackerStore?.addTracker(tracker: tracker, selectedCategory: selectedCategory)
+    }
+    
+    func deleteTracker() {
+        guard let idTracker = idTracker else { return }
+        coreDataManager.trackerStore?.deleteTracker(id: idTracker)
     }
     
     func trackerScheduleToString(indexes: [Int]) -> String {

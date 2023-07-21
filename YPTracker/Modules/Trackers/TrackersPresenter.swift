@@ -2,8 +2,6 @@ import Foundation
 
 final class TrackersPresenter: TrackersPresenterProtocol {
     
-    
-    
     private let coreDataManager = CoreDataManager.defaultManager
     
     weak var view: TrackersViewControllerProtocol?
@@ -39,8 +37,29 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         coreDataManager.trackerStore?.unpinTracker(id: id)
     }
     
-    func deleteTracker(with id: UUID) {
-        coreDataManager.trackerStore?.deleteTracker(with: id)
+    func deleteTracker(id: UUID) {
+        coreDataManager.trackerStore?.deleteTracker(id: id)
+    }
+    
+    func editTracker(id: UUID, category: String) {
+        guard let tracker = coreDataManager.trackerStore?.getTracker(id: id) else { return }
+        let classtype: TypeOfEvent = tracker.schedule == nil ? .irregular : .regular
+        let editViewController = CreateTrackerViewController(classType: classtype)
+        let presenter = CreateTrackerPresenter()
+        editViewController.presenter = presenter
+        
+        presenter.view = editViewController
+        presenter.trackerName = tracker.name
+        presenter.selectedCategory = category
+        presenter.trackerSchedule = tracker.schedule
+        presenter.trackerColor = tracker.color
+        presenter.trackerEmoji = tracker.emoji
+        presenter.idTracker = tracker.id
+        presenter.trackerRecord = countOfCompletedDays(id: tracker.id)
+        
+        editViewController.isEdit = true
+        
+        view?.showEditViewController(vc: editViewController)
     }
     
     

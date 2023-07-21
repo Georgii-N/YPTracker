@@ -86,7 +86,16 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
         return updateCategoriesWithPinnedTrackers(categories: categories)
     }
     
-    func deleteTracker(with id: UUID) {
+    func getTracker(id: UUID) -> Tracker? {
+        guard let object = fetchedResultController.fetchedObjects?.first(where: {
+            trackerCoreData in
+            trackerCoreData.id == id
+        }) else { return nil }
+        let color = colorMarshalling.convertHexColorToRGB(from: object.color ?? "")
+        return Tracker(id: object.id ?? UUID(), color: color, emoji: object.emoji ?? "", name: object.name ?? "", isPinned: object.isPinned, schedule: object.schedule)
+    }
+    
+    func deleteTracker(id: UUID) {
         guard let object = fetchedResultController.fetchedObjects?.first(where: {
             trackerCoreData in
             trackerCoreData.id == id

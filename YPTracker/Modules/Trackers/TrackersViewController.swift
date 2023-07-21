@@ -96,14 +96,6 @@ extension TrackersViewController {
         textLabel.isHidden = true
     }
     
-    @objc private func didTapPlusButton() {
-        let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
-        let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
-        present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
-        guard let presenter = presenter else { return }
-        chooseHabitOrIrregularEventViewController.presenter = chooseTypeOfTrackerPresenter
-    }
-    
     func showStub(after filter: TypeOfStub) {
         switch filter {
         case .dateFilter:
@@ -115,6 +107,46 @@ extension TrackersViewController {
         }
         stubImage.isHidden = false
         textLabel.isHidden = false
+    }
+    
+    func showEditViewController(vc: CreateTrackerViewController) {
+        present(vc, animated: true)
+    }
+    
+    private func showDeleteAlert(id: UUID) {
+        let alert = UIAlertController(title: nil,
+                                      message: NSLocalizedString("deleteAlert.title", comment: ""),
+                                      preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            presenter?.deleteTracker(id: id)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
+    @objc private func didTapPlusButton() {
+        let chooseHabitOrIrregularEventViewController = ChooseTypeOfTrackerViewController()
+        let chooseTypeOfTrackerPresenter = ChooseTypeOfTrackerPresenter()
+        present(chooseHabitOrIrregularEventViewController, animated: true, completion: nil)
+        guard let presenter = presenter else { return }
+        chooseHabitOrIrregularEventViewController.presenter = chooseTypeOfTrackerPresenter
+    }
+    
+    
+    
+    private func greatePinAction(isPinned: Bool, id: UUID) -> UIAction {
+        if isPinned {
+            return UIAction(title: NSLocalizedString("unpin", comment: "")) { [weak self] _ in
+                self?.presenter?.unpinTracker(id: id)
+            }
+        } else {
+            return UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
+                self?.presenter?.pinTracker(id: id)
+            }
+        }
     }
     
     @objc
@@ -161,12 +193,14 @@ extension TrackersViewController: UICollectionViewDataSource {
               let presenter = presenter
         else { return UICollectionViewCell() }
         cell.delegate = self
+        
         let currentTracker = visibleCategories[indexPath.section].listOfTrackers[indexPath.row]
         
         cell.cellView.backgroundColor = currentTracker.color
         cell.trackerButton.backgroundColor = currentTracker.color
         cell.emojiLabel.text = currentTracker.emoji
         cell.cellTextLabel.text = currentTracker.name
+        cell.pinnedImageView.isHidden = !currentTracker.isPinned
         
         cell.countOfDaysLabel.text = presenter.countOfCompletedDays(id: currentTracker.id)
         presenter.checkTrackerCompletedForCurrentData(id: currentTracker.id) ? cell.markTrackerAsCompleted() : cell.unmarkTrackerAsCompleted()
@@ -240,27 +274,23 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         }
         let indexPath = indexPaths[0]
         guard let id = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].id,
-              let isPinned = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].isPinned
+              let isPinned = self.presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row].isPinned,
+              let category = self.presenter?.visibleCategories?[indexPath.section].name
         else { return UIContextMenuConfiguration()}
-        
-        let pinUnpinAction = isPinned ?
-        UIAction(title: NSLocalizedString("unpin", comment: "")) { [weak self] _ in
-            self?.presenter?.unpinTracker(id: id)
-        }
-        :
-        UIAction(title: NSLocalizedString("pin", comment: "")) { [weak self] _ in
-            self?.presenter?.pinTracker(id: id)
-        }
-        
+        print("PRINT category: \(category)")
+
+        let pinUnpinAction = greatePinAction(isPinned: isPinned, id: id)
+
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
-                
+
                 pinUnpinAction,
                 UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
-                    
+                    self?.presenter?.editTracker(id: id, category: category)
                 },
                 UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
-                    
+                    guard let self = self else { return }
+                    self.showDeleteAlert(id: id)
                 }
             ])
         })
@@ -276,6 +306,7 @@ extension TrackersViewController: TrackersViewControllerProtocol {
         guard let indexPath = collectionView.indexPath(for: cell),
               let tracker = presenter?.visibleCategories?[indexPath.section].listOfTrackers[indexPath.row]
         else { return }
+        
         presenter?.createOrDeleteTrackerRecord(with: tracker.id)
     }
 }
