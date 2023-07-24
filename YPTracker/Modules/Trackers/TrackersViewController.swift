@@ -12,23 +12,34 @@ class TrackersViewController: UIViewController {
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    lazy var navBar: TrackersNavBar = {
+    private lazy var navBar: TrackersNavBar = {
         let navBar = TrackersNavBar()
         navBar.searchTextField.delegate = self
         return navBar
     }()
     
-    lazy var stubImage: UIImageView = {
+    private lazy var stubImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = R.Images.Common.stubImage
         return imageView
     }()
     
-    lazy var textLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.text = NSLocalizedString("stubAfterFilterByDate.title", comment: "")
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return textLabel
+    }()
+    
+    lazy var filterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.layer.cornerRadius = 16
+        button.backgroundColor = R.Colors.trBlue
+        button.setTitle(NSLocalizedString("filters", comment: ""), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17)
+        button.setTitleColor(.white, for: .normal)
+        
+        return button
     }()
     
     override func viewDidLoad() {
@@ -82,7 +93,7 @@ class TrackersViewController: UIViewController {
 extension TrackersViewController {
     
     private func setupViews() {
-        [navBar, collectionView, stubImage, textLabel].forEach(view.setupView)
+        [navBar, collectionView, stubImage, textLabel, filterButton].forEach(view.setupView)
     }
     
     private func setupConstraints() {
@@ -94,7 +105,12 @@ extension TrackersViewController {
             collectionView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalToConstant: 114)
         ])
         
         NSLayoutConstraint.activate([
@@ -116,6 +132,10 @@ extension TrackersViewController {
         navBar.datePicker.addTarget(self,
                                     action: #selector(datePickerValueChanged(_:)),
                                     for: .valueChanged)
+        
+        filterButton.addTarget(self,
+                               action: #selector(didTapFilterButton),
+                               for: .touchUpInside)
     }
     
     private func setupCollectionView() {
@@ -170,6 +190,11 @@ extension TrackersViewController {
         chooseHabitOrIrregularEventViewController.presenter = chooseTypeOfTrackerPresenter
     }
     
+    @objc private func didTapFilterButton() {
+        let filterViewController = FilterViewController()
+        filterViewController.presenter = self.presenter
+        present(filterViewController, animated: true)
+    }
     
     
     private func greatePinAction(isPinned: Bool, id: UUID) -> UIAction {

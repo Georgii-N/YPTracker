@@ -18,4 +18,11 @@ protocol TrackersPresenterProtocol {
     func unpinTracker(id: UUID)
     func deleteTracker(id: UUID)
     func editTracker(id: UUID, category: String)
+    
+    func resetAllfilters()
+    func filterByToday()
+    func filterCompletedTracker()
+    func filterUncompletedTracker()
+    
+    func getCurrentFilter() -> Int
 }

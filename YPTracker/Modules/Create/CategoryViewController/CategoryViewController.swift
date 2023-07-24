@@ -3,11 +3,11 @@ import UIKit
 final class CategoryViewController: UIViewController {
     var categoryViewModel: CategoryViewModel
     
-    let titleLabel = BaseTitleLabel(title: NSLocalizedString("category", comment: ""))
-    let addCategoryButton = BaseBlackButton(with: NSLocalizedString("addCategory", comment: ""))
-    let tableView = UITableView()
-    let stubImageView = UIImageView()
-    let stubLabel = UILabel()
+    private let titleLabel = BaseTitleLabel(title: NSLocalizedString("category", comment: ""))
+    private let addCategoryButton = BaseBlackButton(with: NSLocalizedString("addCategory", comment: ""))
+    private let tableView = UITableView()
+    private let stubImageView = UIImageView()
+    private let stubLabel = UILabel()
     
     func showStub() {
         stubImageView.isHidden = false

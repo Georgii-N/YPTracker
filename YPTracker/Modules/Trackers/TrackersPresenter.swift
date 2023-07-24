@@ -6,6 +6,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
+    var currentFilter = 1
     
     var visibleCategories: [TrackerCategory]?
     var completedTrackers: [TrackerRecord]?
@@ -41,6 +42,10 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         coreDataManager.trackerStore?.deleteTracker(id: id)
     }
     
+    func getCurrentFilter() -> Int {
+        currentFilter
+    }
+    
     func editTracker(id: UUID, category: String) {
         guard let tracker = coreDataManager.trackerStore?.getTracker(id: id) else { return }
         let classtype: TypeOfEvent = tracker.schedule == nil ? .irregular : .regular
@@ -68,6 +73,78 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         let date = Date()
         return date > currentDate ? true : false
     }
+    
+    func resetAllfilters() {
+        currentFilter = 0
+        getVisibleTrackersFromStorage()
+        view?.showActualTrackers()
+    }
+    
+    func filterByToday() {
+        currentFilter = 1
+        filterByDate()
+    }
+    
+    func filterCompletedTracker() {
+        currentFilter = 2
+        getVisibleTrackersFromStorage()
+        getTrackersRecordFromStore()
+        guard var visibleCategories = visibleCategories else { return }
+        var categoriesToRemove: [Int] = []
+        
+        for categoryIndex in visibleCategories.indices {
+            var category = visibleCategories[categoryIndex]
+            
+            let filteredTrackers = category.listOfTrackers.filter { tracker in
+                return checkTrackerCompletedForCurrentData(id: tracker.id)
+            }
+            category.listOfTrackers = filteredTrackers
+            
+            if category.listOfTrackers.isEmpty {
+                categoriesToRemove.append(categoryIndex)
+            }
+            
+            visibleCategories[categoryIndex] = category
+        }
+        
+        for index in categoriesToRemove.sorted(by: >) {
+            visibleCategories.remove(at: index)
+        }
+        self.visibleCategories = visibleCategories
+        view?.showActualTrackers()
+    }
+    
+    func filterUncompletedTracker() {
+        currentFilter = 3
+        getVisibleTrackersFromStorage()
+        getTrackersRecordFromStore()
+        guard var visibleCategories = visibleCategories else { return }
+        
+        var categoriesToRemove: [Int] = []
+        for categoryIndex in visibleCategories.indices {
+            var category = visibleCategories[categoryIndex]
+            
+            let filteredTrackers = category.listOfTrackers.filter { tracker in
+                return !checkTrackerCompletedForCurrentData(id: tracker.id)
+            }
+            
+            category.listOfTrackers = filteredTrackers
+            
+            if category.listOfTrackers.isEmpty {
+                categoriesToRemove.append(categoryIndex)
+            }
+            
+            visibleCategories[categoryIndex] = category
+        }
+        for index in categoriesToRemove.sorted(by: >) {
+            visibleCategories.remove(at: index)
+        }
+        
+        self.visibleCategories = visibleCategories
+        view?.showActualTrackers()
+    }
+    
+    
     
     func filterByDate() {
         getVisibleTrackersFromStorage()

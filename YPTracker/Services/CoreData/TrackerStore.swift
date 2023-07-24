@@ -139,9 +139,9 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
         }
         
         let pinnedCategory = TrackerCategory(name: NSLocalizedString("pinned", comment: ""), listOfTrackers: pinnedTrackers)
-        
-        updatedCategories.insert(pinnedCategory, at: 0)
-        
+        if pinnedTrackers.count > 0 {
+            updatedCategories.insert(pinnedCategory, at: 0)
+        }
         return updatedCategories
     }
 }

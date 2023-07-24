@@ -63,8 +63,6 @@ extension StatisticViewController {
         ])
     }
     
-    
-    
     private func setupUI() {
         view.backgroundColor = .white
         

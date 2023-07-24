@@ -56,6 +56,11 @@
 
 "statisticStub" = "Nothing to analyze";
 
+"filters" = "Filters";
 
+"allTrackers" = "All trackers";
+"currentDayTrackers" = "Trackers for today";
+"completedTrackers" = "Сompleted trackers";
+"uncompletedTrackers" = "Uncompleted trackers";
 
 
