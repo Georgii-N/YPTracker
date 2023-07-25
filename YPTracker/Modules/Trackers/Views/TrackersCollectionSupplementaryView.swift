@@ -9,7 +9,8 @@ final class TrackersCollectionSupplementaryView: UICollectionReusableView {
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28)
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
+            headerLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -28)
         ])
         
         headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)

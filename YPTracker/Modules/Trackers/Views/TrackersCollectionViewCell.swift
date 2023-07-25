@@ -125,20 +125,25 @@ extension TrackersCollectionViewCell {
     func markTrackerAsCompleted() {
         trackerButton.setTitle("✓", for: .normal)
         trackerButton.alpha = 0.3
+        ("PRINT 7 isEnable: \(trackerButton.isEnabled)")
     }
     
     func unmarkTrackerAsCompleted() {
         trackerButton.setTitle("+", for: .normal)
         trackerButton.alpha = 1
+        ("PRINT 8 isEnable: \(trackerButton.isEnabled)")
     }
     
     @objc func didTapTrackerButton() {
+        print("PRINT 4 isEnable: \(trackerButton.isEnabled)")
         if trackerButton.titleLabel?.text == "+" {
             markTrackerAsCompleted()
             delegate?.showTrackerIsCompleted(self)
+            print("PRINT 5 isEnable: \(trackerButton.isEnabled)")
         } else {
             unmarkTrackerAsCompleted()
             delegate?.showTrackerIsCompleted(self)
+            print("PRINT 6 isEnable: \(trackerButton.isEnabled)")
         }
     }
 }

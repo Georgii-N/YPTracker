@@ -263,11 +263,14 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.emojiLabel.text = currentTracker.emoji
         cell.cellTextLabel.text = currentTracker.name
         cell.pinnedImageView.isHidden = !currentTracker.isPinned
+        print("PRINT 1 isEnable: \(cell.trackerButton.isEnabled)")
         
         cell.countOfDaysLabel.text = presenter.countOfCompletedDays(id: currentTracker.id)
         presenter.checkTrackerCompletedForCurrentData(id: currentTracker.id) ? cell.markTrackerAsCompleted() : cell.unmarkTrackerAsCompleted()
+        print("PRINT 2 isEnable: \(cell.trackerButton.isEnabled)")
+        cell.unlockTrackerButton()
         presenter.checkCurrentDateIsTodayDate() ? cell.unlockTrackerButton() : cell.lockTrackerButton()
-        
+        print("PRINT 3 isEnable: \(cell.trackerButton.isEnabled)")
         return cell
     }
     
