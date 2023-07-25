@@ -1,13 +1,12 @@
 import UIKit
 
 final class SсheduleViewController: UIViewController, ScheduleViewControllerProtocol {
-    let titleLabel = BaseTitleLabel(title: "Расписание")
+    let titleLabel = BaseTitleLabel(title: NSLocalizedString("schedule", comment: ""))
     let tableView = UITableView()
-    let createButton = BaseBlackButton(with: "Готово")
+    let createButton = BaseBlackButton(with: NSLocalizedString("done", comment: ""))
     
     var presenter: SchedulePresenterProtocol?
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -28,6 +27,7 @@ extension SсheduleViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
             
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
             tableView.heightAnchor.constraint(equalToConstant: 525),

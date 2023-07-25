@@ -9,11 +9,29 @@ final class TrackersCollectionSupplementaryView: UICollectionReusableView {
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28)
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
+            headerLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -28)
         ])
         
         headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        headerLabel.textColor = R.Colors.trBlack
+       
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+            headerLabel.textColor = .white
+        } else if traitCollection.userInterfaceStyle == .light {
+            headerLabel.textColor = R.Colors.trBlack
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyCurrentTheme()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

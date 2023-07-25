@@ -7,6 +7,7 @@ enum R {
         static let trBlack = UIColor(hexString: "#1A1B22")
         static let trRed = UIColor(hexString: "#F56B6C")
         static let trBackgroundDay = UIColor(hexString: "#E6E8EB")
+        static let trBackgroundWhite = UIColor(hexString: "#F0F0F0")
         
         enum ColorsForCollection {
             static let colorCollection1 = UIColor(hexString: "#FD4C49")
@@ -39,10 +40,15 @@ enum R {
         enum Common {
             static let stubImage = UIImage(named: "stub")
             static let stubAfterSearch = UIImage(named: "stubAfterSearch")
+            static let pinned = UIImage(named: "pinned")
         }
         
         enum NavBar {
             static let plusIcon = UIImage(named: "plus")
+        }
+        
+        enum Statistic {
+            static let statisticStub = UIImage(named: "statisticStub")
         }
         
         enum Onboarding {
@@ -51,15 +57,8 @@ enum R {
         }
     }
     
-    enum Strings {
-        enum Onboarding {
-            static let firstPageTitle = "Отслеживайте только то, что хотите"
-            static let secondPageTitle = "Даже если это не литры воды и йога"
-        }
-        
-        enum Buttons {
-            static let buttonOnboarding = "Вот это технологии!"
-        }
+    enum APIkeys {
+        static let metrica = "ac840d43-406d-469f-97ce-73a9ec060d10"
     }
 }
 

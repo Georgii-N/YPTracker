@@ -6,6 +6,7 @@ final class TrackersPresenter: TrackersPresenterProtocol {
     
     weak var view: TrackersViewControllerProtocol?
     var currentDate: Date?
+    var currentFilter = 1
     
     var visibleCategories: [TrackerCategory]?
     var completedTrackers: [TrackerRecord]?
@@ -29,11 +30,121 @@ final class TrackersPresenter: TrackersPresenterProtocol {
         filterByDate()
     }
     
+    func pinTracker(id: UUID) {
+        coreDataManager.trackerStore?.pinTracker(id: id)
+    }
+    
+    func unpinTracker(id: UUID) {
+        coreDataManager.trackerStore?.unpinTracker(id: id)
+    }
+    
+    func deleteTracker(id: UUID) {
+        coreDataManager.trackerStore?.deleteTracker(id: id)
+    }
+    
+    func getCurrentFilter() -> Int {
+        currentFilter
+    }
+    
+    func editTracker(id: UUID, category: String) {
+        guard let tracker = coreDataManager.trackerStore?.getTracker(id: id) else { return }
+        let classtype: TypeOfEvent = tracker.schedule == nil ? .irregular : .regular
+        let editViewController = CreateTrackerViewController(classType: classtype)
+        let presenter = CreateTrackerPresenter()
+        editViewController.presenter = presenter
+        
+        presenter.view = editViewController
+        presenter.trackerName = tracker.name
+        presenter.selectedCategory = category
+        presenter.trackerSchedule = tracker.schedule
+        presenter.trackerColor = tracker.color
+        presenter.trackerEmoji = tracker.emoji
+        presenter.idTracker = tracker.id
+        presenter.trackerRecord = countOfCompletedDays(id: tracker.id)
+        
+        editViewController.isEdit = true
+        
+        view?.showEditViewController(vc: editViewController)
+    }
+    
+    
     func checkCurrentDateIsTodayDate() -> Bool  {
         guard let currentDate = currentDate else { return false }
         let date = Date()
-        return date > currentDate ? true : false
+        return date > currentDate
     }
+    
+    func resetAllfilters() {
+        currentFilter = 0
+        getVisibleTrackersFromStorage()
+        view?.showActualTrackers()
+    }
+    
+    func filterByToday() {
+        currentFilter = 1
+        filterByDate()
+    }
+    
+    func filterCompletedTracker() {
+        currentFilter = 2
+        getVisibleTrackersFromStorage()
+        getTrackersRecordFromStore()
+        guard var visibleCategories = visibleCategories else { return }
+        var categoriesToRemove: [Int] = []
+        
+        for categoryIndex in visibleCategories.indices {
+            var category = visibleCategories[categoryIndex]
+            
+            let filteredTrackers = category.listOfTrackers.filter { tracker in
+                return checkTrackerCompletedForCurrentData(id: tracker.id)
+            }
+            category.listOfTrackers = filteredTrackers
+            
+            if category.listOfTrackers.isEmpty {
+                categoriesToRemove.append(categoryIndex)
+            }
+            
+            visibleCategories[categoryIndex] = category
+        }
+        
+        for index in categoriesToRemove.sorted(by: >) {
+            visibleCategories.remove(at: index)
+        }
+        self.visibleCategories = visibleCategories
+        view?.showActualTrackers()
+    }
+    
+    func filterUncompletedTracker() {
+        currentFilter = 3
+        getVisibleTrackersFromStorage()
+        getTrackersRecordFromStore()
+        guard var visibleCategories = visibleCategories else { return }
+        
+        var categoriesToRemove: [Int] = []
+        for categoryIndex in visibleCategories.indices {
+            var category = visibleCategories[categoryIndex]
+            
+            let filteredTrackers = category.listOfTrackers.filter { tracker in
+                return !checkTrackerCompletedForCurrentData(id: tracker.id)
+            }
+            
+            category.listOfTrackers = filteredTrackers
+            
+            if category.listOfTrackers.isEmpty {
+                categoriesToRemove.append(categoryIndex)
+            }
+            
+            visibleCategories[categoryIndex] = category
+        }
+        for index in categoriesToRemove.sorted(by: >) {
+            visibleCategories.remove(at: index)
+        }
+        
+        self.visibleCategories = visibleCategories
+        view?.showActualTrackers()
+    }
+    
+    
     
     func filterByDate() {
         getVisibleTrackersFromStorage()
@@ -82,39 +193,18 @@ final class TrackersPresenter: TrackersPresenterProtocol {
             coreDataManager.trackerRecordStore?.addTrackerRecord(tracker: trackerRecord)
             getTrackersRecordFromStore()
         }
+        view?.showActualTrackers()
     }
     
     func countOfCompletedDays(id: UUID) -> String {
         let count =
         completedTrackers == nil ?
         0 : completedTrackers!.filter { $0.id == id }.count
-        return formatDaysString(count)
+        let tasksString = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfDays", comment: "Number of remaining tasks"), count)
+        return tasksString
     }
     
-    func formatDaysString(_ n: Int) -> String {
-        var daysString: String
-        
-        if n == 0 {
-            daysString = "0 дней"
-        } else {
-            daysString = "\(n) дней"
-            
-            let lastDigit = n % 10
-            let lastTwoDigits = n % 100
-            
-            if lastTwoDigits >= 11 && lastTwoDigits <= 19 {
-                
-                return daysString
-            } else if lastDigit == 1 {
-                
-                daysString = "\(n) день"
-            } else if lastDigit >= 2 && lastDigit <= 4 {
-                daysString = "\(n) дня"
-            }
-        }
-        
-        return daysString
-    }
     
     func filterArray(for searchText: String) {
         if !searchText.isEmpty {
@@ -166,7 +256,6 @@ extension TrackersPresenter: TrackerStoreDelegate {
 extension TrackersPresenter: TrackerRecordStoreDelegate {
     func getTrackersRecordFromStore() {
         completedTrackers = coreDataManager.trackerRecordStore?.getTrackersRecord()
-        
     }
     
     func showActualTrackers() {

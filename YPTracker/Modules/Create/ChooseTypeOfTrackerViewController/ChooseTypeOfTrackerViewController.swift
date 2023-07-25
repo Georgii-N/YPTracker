@@ -1,9 +1,9 @@
 import UIKit
 
 final class ChooseTypeOfTrackerViewController: UIViewController {
-    let titleLabel = BaseTitleLabel(title: "Создание трекера")
-    let habitButton = BaseBlackButton(with: "Привычка")
-    let irregularEventButton = BaseBlackButton(with: "Нерегулярное событие")
+    let titleLabel = BaseTitleLabel(title: NSLocalizedString("ChooseTypeOfTracker.title", comment: ""))
+    let habitButton = BaseBlackButton(with: NSLocalizedString("habit", comment: ""))
+    let irregularEventButton = BaseBlackButton(with: NSLocalizedString("irregularEvent", comment: ""))
     
     var presenter: ChooseTypeOfTrackerPresenterProtocol?
     
@@ -49,6 +49,7 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
+        createTrackerViewController.isEdit = false
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }
@@ -58,6 +59,7 @@ extension ChooseTypeOfTrackerViewController {
         let createTrackerPresenter = CreateTrackerPresenter()
         createTrackerViewController.presenter = createTrackerPresenter
         createTrackerPresenter.view = createTrackerViewController
+        createTrackerViewController.isEdit = false
         createTrackerViewController.chooseTypeOfTrackerViewController = self
         present(createTrackerViewController, animated: true)
     }

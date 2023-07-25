@@ -1,0 +1,68 @@
+"trackersView.title" = "Трекеры";
+"statisticView.title" = "Статистика";
+"stubAfterFilterByDate.title" = "Что будем отслеживать?";
+"stubAfterSearch.title" = "Ничего не найдено";
+"searchFieldPlaceholder" = "Поиск...";
+
+"ChooseTypeOfTracker.title" = "Создание трекера";
+"habit" = "Привычка";
+"irregularEvent" = "Нерегулярное событие";
+"category" = "Категория";
+"newHabit" = "Новая привычка";
+"schedule" = "Расписание";
+"newIrregularEvent" = "Новое нерегулярное событие";
+"newTrackerPlaceholder" = "Введите название трекера";
+"warningLimit" = "Ограничение 38 символов";
+"cancel" = "Отменить";
+"create" = "Создать";
+"color" = "Цвет";
+"addCategory" = "Добавить категорию";
+"stubCategoryView" = "Привычки и события можно\n объединить по смыслу";
+"done" = "Готово";
+"nameCategoryPlaceholder" = "Введите название категории";
+"warningCategoryExist" = "Такая категория уже существует";
+"firstPageOnboarding.title" = "Отслеживайте только то, что хотите";
+"secondPageOnboarding.title" = "Даже если это не литры воды и йога";
+"onbordingButton.title" = "Вот это технологии!";
+
+"monday" = "Понедельник";
+"tuesday" = "Вторник";
+"wednesday" = "Среда";
+"thursday" = "Четверг";
+"friday" = "Пятница";
+"saturday" = "Суббота";
+"sunday" = "Воскресенье";
+"everyDay" = "Каждый день";
+
+"monday.short" = "Пн";
+"tuesday.short" = "Вт";
+"wednesday.short" = "Ср";
+"thursday.short" = "Чт";
+"friday.short" = "Пт";
+"saturday.short" = "Сб";
+"sunday.short" = "Вс";
+
+"pin" = "Закрепить";
+"unpin" = "Открепить";
+"edit" = "Редактировать";
+"delete" = "Удалить";
+
+"pinned" = "Закрепленные";
+
+"editingHabit" = "Редактирование привычки";
+
+"save" = "Сохранить";
+
+"deleteAlert.title" = "Уверены, что хотите удалить этот трекер?";
+
+"trackersCompleted" = "Трекеров завершено";
+
+"statisticStub" = "Анализировать пока нечего";
+
+"filters" = "Фильтры";
+
+
+"allTrackers" = "Все трекеры";
+"currentDayTrackers" = "Трекеры на сегодня";
+"completedTrackers" = "Завершенные";
+"uncompletedTrackers" = "Не завершенные";

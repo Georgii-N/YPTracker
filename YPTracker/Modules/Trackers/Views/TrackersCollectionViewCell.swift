@@ -7,6 +7,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     lazy var cellTextLabel = UILabel()
     lazy var countOfDaysLabel = UILabel()
     lazy var trackerButton = UIButton()
+    lazy var pinnedImageView = UIImageView()
     
     var delegate: TrackersViewControllerProtocol?
     
@@ -16,10 +17,30 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         setupViews()
         setupConstraints()
         setupUI()
+        applyCurrentTheme()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func applyCurrentTheme() {
+        if traitCollection.userInterfaceStyle == .dark {
+            countOfDaysLabel.textColor = .white
+            trackerButton.setTitleColor(R.Colors.trBlack, for: .normal)
+        } else if traitCollection.userInterfaceStyle == .light {
+            countOfDaysLabel.textColor = R.Colors.trBlack
+            trackerButton.setTitleColor(.white, for: .normal)
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *),
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyCurrentTheme()
+        }
     }
 }
 
@@ -30,7 +51,8 @@ extension TrackersCollectionViewCell {
             emojiLabel,
             cellTextLabel,
             countOfDaysLabel,
-            trackerButton
+            trackerButton,
+            pinnedImageView
         ].forEach(contentView.setupView)
     }
     
@@ -48,6 +70,9 @@ extension TrackersCollectionViewCell {
             
             emojiLabel.centerXAnchor.constraint(equalTo: emojiBackgroundView.centerXAnchor),
             emojiLabel.centerYAnchor.constraint(equalTo: emojiBackgroundView.centerYAnchor),
+            
+            pinnedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            pinnedImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             
             cellTextLabel.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: 12),
             cellTextLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -12),
@@ -72,12 +97,14 @@ extension TrackersCollectionViewCell {
         
         emojiLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         
+        pinnedImageView.image = R.Images.Common.pinned
+        pinnedImageView.isHidden = true
         
         cellTextLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         cellTextLabel.textColor = .white
         
         countOfDaysLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        countOfDaysLabel.textColor = R.Colors.trBlack
+        
         countOfDaysLabel.text = "0 дней"
         
         trackerButton.layer.cornerRadius = 17
@@ -98,21 +125,25 @@ extension TrackersCollectionViewCell {
     func markTrackerAsCompleted() {
         trackerButton.setTitle("✓", for: .normal)
         trackerButton.alpha = 0.3
+        ("PRINT 7 isEnable: \(trackerButton.isEnabled)")
     }
     
     func unmarkTrackerAsCompleted() {
         trackerButton.setTitle("+", for: .normal)
         trackerButton.alpha = 1
+        ("PRINT 8 isEnable: \(trackerButton.isEnabled)")
     }
     
     @objc func didTapTrackerButton() {
+        print("PRINT 4 isEnable: \(trackerButton.isEnabled)")
         if trackerButton.titleLabel?.text == "+" {
             markTrackerAsCompleted()
             delegate?.showTrackerIsCompleted(self)
+            print("PRINT 5 isEnable: \(trackerButton.isEnabled)")
         } else {
             unmarkTrackerAsCompleted()
             delegate?.showTrackerIsCompleted(self)
+            print("PRINT 6 isEnable: \(trackerButton.isEnabled)")
         }
     }
 }
-

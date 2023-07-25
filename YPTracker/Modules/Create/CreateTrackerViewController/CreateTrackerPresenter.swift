@@ -16,6 +16,9 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     var trackerColor: UIColor?
     var trackerEmoji: String?
     var trackerSchedule: [Int]?
+    var idTracker: UUID?
+    var trackerRecord: String?
+    
     
     var emojiArray = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -77,9 +80,14 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
             let trackerEmoji = trackerEmoji
         else { return }
         
-        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, schedule: trackerSchedule ?? Array(0...6))
+        let tracker = Tracker(id: UUID(), color: trackerColor, emoji: trackerEmoji, name: trackerName, isPinned: false, schedule: trackerSchedule ?? nil)
         
         coreDataManager.trackerStore?.addTracker(tracker: tracker, selectedCategory: selectedCategory)
+    }
+    
+    func deleteTracker() {
+        guard let idTracker = idTracker else { return }
+        coreDataManager.trackerStore?.deleteTracker(id: idTracker)
     }
     
     func trackerScheduleToString(indexes: [Int]) -> String {
@@ -87,25 +95,28 @@ final class CreateTrackerPresenter: CreateTrackerPresenterProtocol {
         for index in indexes {
             switch index {
             case 0:
-                shortenedNames.append("Пн")
+                shortenedNames.append(NSLocalizedString("monday.short", comment: ""))
             case 1:
-                shortenedNames.append("Вт")
+                shortenedNames.append(NSLocalizedString("tuesday.short", comment: ""))
             case 2:
-                shortenedNames.append("Ср")
+                shortenedNames.append(NSLocalizedString("wednesday.short", comment: ""))
             case 3:
-                shortenedNames.append("Чт")
+                shortenedNames.append(NSLocalizedString("thursday.short", comment: ""))
             case 4:
-                shortenedNames.append("Пт")
+                shortenedNames.append(NSLocalizedString("friday.short", comment: ""))
             case 5:
-                shortenedNames.append("Сб")
+                shortenedNames.append(NSLocalizedString("saturday.short", comment: ""))
             case 6:
-                shortenedNames.append("Вс")
+                shortenedNames.append(NSLocalizedString("sunday.short", comment: ""))
             default:
-                shortenedNames.append("Пн")
+                shortenedNames.append(NSLocalizedString("monday.short", comment: ""))
             }
         }
-        
-        return shortenedNames.joined(separator: ", ")
+        if shortenedNames.count == 7 {
+            return NSLocalizedString("everyDay", comment: "")
+        } else {
+            return shortenedNames.joined(separator: ", ")
+        }
     }
     
     func clearNewTrackerVars() {

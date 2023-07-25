@@ -7,7 +7,9 @@ protocol TrackersViewControllerProtocol: AnyObject {
     func showActualTrackers()
     func showTrackerIsCompleted(_ cell: TrackersCollectionViewCell)
     func showStub(after filter: TypeOfStub)
+    func showEditViewController(vc: CreateTrackerViewController)
     
     func hideStub()
+    
 }
 

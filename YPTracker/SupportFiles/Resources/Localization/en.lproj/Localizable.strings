@@ -1,0 +1,66 @@
+"trackersView.title" = "Trackers";
+"statisticView.title" = "Statistic";
+"stubAfterFilterByDate.title" = "What will we track?";
+"stubAfterSearch.title" = "Nothing found";
+"searchFieldPlaceholder" = "Search...";
+
+"ChooseTypeOfTracker.title" = "Creating a tracker";
+"habit" = "Habit";
+"irregularEvent" = "Irregular event";
+"category" = "Category";
+"newHabit" = "New habit";
+"schedule" = "Schedule";
+"newIrregularEvent" = "New irregular event";
+"newTrackerPlaceholder" = "Enter tracker name";
+"warningLimit" = "38 character limit";
+"cancel" = "Cancel";
+"create" = "Create";
+"color" = "Color";
+"addCategory" = "Add category";
+"stubCategoryView" = "Habits and events can\n be combined in meaning";
+"done" = "Done";
+"nameCategoryPlaceholder" = "Enter category name";
+"warningCategoryExist" = "This category already exists.";
+"firstPageOnboarding.title" = "Track only what you want";
+"secondPageOnboarding.title" = "Even if it's not liters of water and yoga";
+"onbordingButton.title" = "That's technology!";
+
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+"everyDay" = "Every day";
+
+"monday.short" = "Mo";
+"tuesday.short" = "Tu";
+"wednesday.short" = "We";
+"thursday.short" = "Th";
+"friday.short" = "Fr";
+"saturday.short" = "Sa";
+"sunday.short" = "Su";
+
+"pin" = "Pin";
+"unpin" = "Unpin";
+"edit" = "Edit";
+"delete" = "Delete";
+"pinned" = "Pinned";
+"editingHabit" = "Habit editing";
+"save" = "Save";
+
+"deleteAlert.title" = "Are you sure you want to delete this tracker?";
+
+"trackersCompleted" = "Trackers completed";
+
+"statisticStub" = "Nothing to analyze";
+
+"filters" = "Filters";
+
+"allTrackers" = "All trackers";
+"currentDayTrackers" = "Trackers for today";
+"completedTrackers" = "Сompleted trackers";
+"uncompletedTrackers" = "Uncompleted trackers";
+
+

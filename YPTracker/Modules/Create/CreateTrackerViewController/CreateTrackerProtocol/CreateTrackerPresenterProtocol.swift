@@ -8,10 +8,14 @@ protocol CreateTrackerPresenterProtocol {
     var trackerColor: UIColor? { get set }
     var trackerEmoji: String? { get set }
     var trackerSchedule: [Int]? { get set }
+    var idTracker: UUID? { get set }
+    var trackerRecord: String? { get set }
     
     func clearNewTrackerVars()
     func checkAndOpenCreateButton()
     func updateCreateTrackerSchedule(with indexesOfDays: [Int])
+    
     func greateNewTracker()
+    func deleteTracker()
     
 }

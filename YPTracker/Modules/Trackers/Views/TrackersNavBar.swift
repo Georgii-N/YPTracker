@@ -2,7 +2,7 @@ import UIKit
 
 final class TrackersNavBar: UIView {
     lazy var plusButton = UIButton()
-    private lazy var textLabel = UILabel()
+    lazy var textLabel = UILabel()
     lazy var datePicker = UIDatePicker()
     lazy var searchTextField = UISearchTextField()
     
@@ -45,12 +45,15 @@ extension TrackersNavBar {
         plusButton.setImage(R.Images.NavBar.plusIcon, for: .normal)
         
         textLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        textLabel.text = "Трекеры"
+        textLabel.text = NSLocalizedString("trackersView.title", comment: "")
         
+        datePicker.overrideUserInterfaceStyle = .light
+        datePicker.layer.cornerRadius = 8
+        datePicker.layer.masksToBounds = true
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         
-        searchTextField.text = "Поиск..."
+        searchTextField.text = NSLocalizedString("searchFieldPlaceholder", comment: "")
         searchTextField.textColor = R.Colors.trGray
     }
 }
