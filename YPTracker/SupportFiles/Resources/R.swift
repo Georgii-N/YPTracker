@@ -56,5 +56,9 @@ enum R {
             static let secondPageBackground = UIImage(named: "onboardingSecond")
         }
     }
+    
+    enum APIkeys {
+        static let metrica = "ac840d43-406d-469f-97ce-73a9ec060d10"
+    }
 }
 

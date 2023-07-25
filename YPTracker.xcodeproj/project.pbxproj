@@ -37,6 +37,7 @@
 		406C5A1A2A1F1EAA0036A47D /* UIColor + hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406C5A192A1F1EAA0036A47D /* UIColor + hex.swift */; };
 		406E37CD2A38868400DC291B /* Date + Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E37CC2A38868400DC291B /* Date + Equal.swift */; };
 		4076F1A02A6BA5B6002F9808 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4076F19F2A6BA5B6002F9808 /* FilterViewController.swift */; };
+		407ADB1C2A700A2000B54B94 /* UIView + gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407ADB1B2A700A2000B54B94 /* UIView + gradient.swift */; };
 		408115F72A2C9709006153BC /* ScheduleViewControllerCellDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408115F62A2C9709006153BC /* ScheduleViewControllerCellDelegateProtocol.swift */; };
 		408115F92A2CBDCE006153BC /* TrackersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408115F82A2CBDCE006153BC /* TrackersCollectionViewCell.swift */; };
 		4085A2CA2A4158AA00030944 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4085A2C92A4158AA00030944 /* CoreDataManager.swift */; };
@@ -49,7 +50,6 @@
 		40A035362A6AEB4A005E72AE /* StatisticPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A035352A6AEB4A005E72AE /* StatisticPresenterProtocol.swift */; };
 		40A035382A6AEB72005E72AE /* StatisticViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A035372A6AEB72005E72AE /* StatisticViewControllerProtocol.swift */; };
 		40A0353A2A6AEBCF005E72AE /* StatisticPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A035392A6AEBCF005E72AE /* StatisticPresenter.swift */; };
-		40A0353E2A6AFCED005E72AE /* UIView + Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0353D2A6AFCED005E72AE /* UIView + Gradient.swift */; };
 		40BC62332A1F8C2500F184F2 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BC62322A1F8C2500F184F2 /* TrackerCategory.swift */; };
 		40BC62352A1F8C5100F184F2 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BC62342A1F8C5100F184F2 /* Tracker.swift */; };
 		40BC62372A1F8C6B00F184F2 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BC62362A1F8C6B00F184F2 /* TrackerRecord.swift */; };
@@ -126,6 +126,7 @@
 		406C5A192A1F1EAA0036A47D /* UIColor + hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + hex.swift"; sourceTree = "<group>"; };
 		406E37CC2A38868400DC291B /* Date + Equal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Equal.swift"; sourceTree = "<group>"; };
 		4076F19F2A6BA5B6002F9808 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		407ADB1B2A700A2000B54B94 /* UIView + gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + gradient.swift"; sourceTree = "<group>"; };
 		408115F62A2C9709006153BC /* ScheduleViewControllerCellDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewControllerCellDelegateProtocol.swift; sourceTree = "<group>"; };
 		408115F82A2CBDCE006153BC /* TrackersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCollectionViewCell.swift; sourceTree = "<group>"; };
 		4085A2C92A4158AA00030944 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -138,7 +139,6 @@
 		40A035352A6AEB4A005E72AE /* StatisticPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticPresenterProtocol.swift; sourceTree = "<group>"; };
 		40A035372A6AEB72005E72AE /* StatisticViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewControllerProtocol.swift; sourceTree = "<group>"; };
 		40A035392A6AEBCF005E72AE /* StatisticPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticPresenter.swift; sourceTree = "<group>"; };
-		40A0353D2A6AFCED005E72AE /* UIView + Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Gradient.swift"; sourceTree = "<group>"; };
 		40BC62322A1F8C2500F184F2 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		40BC62342A1F8C5100F184F2 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		40BC62362A1F8C6B00F184F2 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
@@ -374,10 +374,10 @@
 			isa = PBXGroup;
 			children = (
 				406C5A192A1F1EAA0036A47D /* UIColor + hex.swift */,
-				40A0353D2A6AFCED005E72AE /* UIView + Gradient.swift */,
 				40E1F1DE2A1F6BDF009B439D /* UIView + setupView.swift */,
 				406E37CC2A38868400DC291B /* Date + Equal.swift */,
 				4085A2D52A415F7400030944 /* TrackerRecord + Equal.swift */,
+				407ADB1B2A700A2000B54B94 /* UIView + gradient.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -759,12 +759,12 @@
 				40CAE2932A1629460024000B /* TrackersViewController.swift in Sources */,
 				405668C32A4FF05D00B1C350 /* NewCategoryPresenter.swift in Sources */,
 				4085A2D82A41702B00030944 /* UIColorMarshalling.swift in Sources */,
-				40A0353E2A6AFCED005E72AE /* UIView + Gradient.swift in Sources */,
 				40E1F1DF2A1F6BDF009B439D /* UIView + setupView.swift in Sources */,
 				400BBECE2A4EC6B7003EF2FA /* BaseOnboardingViewController.swift in Sources */,
 				40603BB92A205D50005C1C64 /* ChooseTypeOfTrackerViewController.swift in Sources */,
 				4085A2CC2A4158D300030944 /* TrackerStore.swift in Sources */,
 				406E37CD2A38868400DC291B /* Date + Equal.swift in Sources */,
+				407ADB1C2A700A2000B54B94 /* UIView + gradient.swift in Sources */,
 				40E67D2D2A41A6CF00061596 /* TrackerStoreProtocol.swift in Sources */,
 				40DBE6AE2A31A9A600B3DA14 /* ChooseTypeOfTrackerViewControllerProtocol.swift in Sources */,
 				400BBECC2A4EC664003EF2FA /* OnboardingViewController.swift in Sources */,

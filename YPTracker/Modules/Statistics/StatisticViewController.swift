@@ -94,15 +94,6 @@ extension StatisticViewController {
         
     }
     
-    private func addGradientToView(view: UIView, colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = colors.map { $0.cgColor }
-        gradientLayer.startPoint = startPoint
-        gradientLayer.endPoint = endPoint
-        view.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
     func showStub() {
         stubImageView.isHidden = false
         stubTextLabel.isHidden = false

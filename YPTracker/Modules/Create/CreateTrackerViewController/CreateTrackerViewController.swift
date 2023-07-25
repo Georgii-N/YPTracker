@@ -33,27 +33,7 @@ final class CreateTrackerViewController: UIViewController, CreateTrackerViewCont
         setupConstraints()
         setupUI()
         setupDelegatesAndDataSources()
-        
-        if isEdit {
-            titleLabel.text = NSLocalizedString("editingHabit", comment: "")
-            titleCountOfDaysLabel.isHidden = false
-            changeTitleOfCreateButton()
-            presenter?.updateCreateTrackerSchedule(with: presenter?.trackerSchedule ?? [])
-            
-            textField.text = presenter?.trackerName
-            titleCountOfDaysLabel.text = presenter?.trackerRecord
-            
-            if let presenter = presenter, let emojiIndex = presenter.emojiArray.firstIndex(of: presenter.trackerEmoji ?? "") {
-                    let emojiIndexPath = IndexPath(item: emojiIndex, section: 0)
-                    collectionView.selectItem(at: emojiIndexPath, animated: false, scrollPosition: .top)
-                }
-
-            if let presenter = presenter, let colorIndex = presenter.colorArray.firstIndex(of: presenter.trackerColor ?? .red) {
-                    let colorIndexPath = IndexPath(item: colorIndex, section: 1)
-                    collectionView.selectItem(at: colorIndexPath, animated: false, scrollPosition: .top)
-                }
-        }
-        
+        setupEditionUI()
     }
     
     init(classType: TypeOfEvent) {
@@ -195,6 +175,28 @@ extension CreateTrackerViewController {
         collectionView.register(CreateTrackerSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    private func setupEditionUI() {
+        if isEdit {
+            titleLabel.text = NSLocalizedString("editingHabit", comment: "")
+            titleCountOfDaysLabel.isHidden = false
+            changeTitleOfCreateButton()
+            presenter?.updateCreateTrackerSchedule(with: presenter?.trackerSchedule ?? [])
+            
+            textField.text = presenter?.trackerName
+            titleCountOfDaysLabel.text = presenter?.trackerRecord
+            
+            if let presenter = presenter, let emojiIndex = presenter.emojiArray.firstIndex(of: presenter.trackerEmoji ?? "") {
+                    let emojiIndexPath = IndexPath(item: emojiIndex, section: 0)
+                    collectionView.selectItem(at: emojiIndexPath, animated: false, scrollPosition: .top)
+                }
+
+            if let presenter = presenter, let colorIndex = presenter.colorArray.firstIndex(of: presenter.trackerColor ?? .red) {
+                    let colorIndexPath = IndexPath(item: colorIndex, section: 1)
+                    collectionView.selectItem(at: colorIndexPath, animated: false, scrollPosition: .top)
+                }
+        }
     }
     
     func unlockCreateButton() {
